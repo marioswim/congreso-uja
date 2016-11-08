@@ -38,14 +38,14 @@ class ColaboradorController extends Controller
 		$form 	= 	$this->createMyForm();
 		$form 	=	$form->getForm();
 
-		$form->handleRequest($request);
+		$form -> handleRequest($request);
 
-	    if ($form->isSubmitted() && $form->isValid()) {
-	        
-	        dump($form->getData());
+	    if($form->isSubmitted() && $form->isValid()) 
+	    {	        
 	       	$this->insert($form->getData());
 	    }
-	    $params["form"]=$form->createView();
+
+	    $params["form"]	=	$form->createView();
 	    return $this->render('forms/colaborador.html.twig', $params);
 
 	}
@@ -53,8 +53,9 @@ class ColaboradorController extends Controller
 
 	private function createMyForm()
 	{
-		$colaborador= new ColaboradorForm();
-		$form= $this->createFormBuilder($colaborador)
+		$colaborador = new ColaboradorForm();
+
+		$form = $this->createFormBuilder($colaborador)
 			->add("nombre","text",array("label"=>"Nombre"))
 			->add("key","text",array("label"=>"KeyWord para URL"))
 			->add("rol","choice",
@@ -68,36 +69,36 @@ class ColaboradorController extends Controller
 					)
 				)
 			->add("description","textarea",array("label"=>"Descripción"))
-			->add("uri","file", array("label"=>"Logo Colaborador"))
+			->add("file","file", array("label"=>"Logo Colaborador"))
 			->add('save', 'submit', array('label' => 'Guardar'));
 		return $form;
 	}
 
 	private function  insert($dataForm)
 	{
-		$em=$this->getDoctrine()->getManager();
+		$dir 	=  '/var/www/congreso/web/files/images/';
+		$file 	=  $dataForm->getFile();
+		$name 	=  $dataForm->getKey().".".$file->guessExtension();
+		$file 	-> move($dir,$name);
 		
-		$colaborador=new Colaborador();
+		$colaborador = new Colaborador();
 
-		$file=$dataForm->getUri();
-		$dir='/var/www/congreso/web/files/images/';
-		$name=$dataForm->getKey().".".$file->guessExtension();
-		$file->move($dir,$name);
-
-		$colaborador->setNombre($dataForm->getNombre());
-		$colaborador->setRol($dataForm->getRol());
-		$colaborador->setId($dataForm->getKey());
-		$colaborador->setDescription($dataForm->getDescription());
-		$colaborador->setUri('files/images/'.$name);
+		$colaborador -> setNombre($dataForm->getNombre());
+		$colaborador -> setRol($dataForm->getRol());
+		$colaborador -> setId($dataForm->getKey());
+		$colaborador -> setDescription($dataForm->getDescription());
+		$colaborador -> setUri('files/images/'.$name);
 		
 		
 
 
-		dump($colaborador);
+		
 
-		$em->persist($colaborador);
-		dump($em->getConfiguration()->getQuoteStrategy());
-		$em->flush();
+		$em = $this->getDoctrine()->getManager();
+		$em -> persist($colaborador);
+		$em -> flush();
+
+
 	}
 
 }

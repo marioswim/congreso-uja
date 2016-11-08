@@ -9,7 +9,7 @@ namespace AppBundle\forms;
 
 
 
-class Colaborador
+class ColaboradorForm
 {
 
 	private $key;
@@ -18,7 +18,7 @@ class Colaborador
 	private $nombre;
 
 
-	private $uri;
+	private $file;
 
     
     private $description;
@@ -30,7 +30,7 @@ class Colaborador
     {
     	$this->key="";
     	$this->nombre="";
-    	$this->uri="";
+    	$this->file="";
     	$this->description="";
     	$this->rol="";
     }
@@ -81,26 +81,26 @@ class Colaborador
     }
 
     /**
-     * Set uri
+     * Set file
      *
-     * @param string $uri
+     * @param string $file
      * @return Colaborador
      */
-    public function setUri($uri)
+    public function setFile($file)
     {
-        $this->uri = $uri;
+        $this->file = $file;
 
         return $this;
     }
 
     /**
-     * Get uri
+     * Get file
      *
      * @return string 
      */
-    public function getUri()
+    public function getFile()
     {
-        return $this->uri;
+        return $this->file;
     }
 
     /**

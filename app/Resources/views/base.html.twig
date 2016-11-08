@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}congreso{% endblock %}</title>
+        {% block stylesheets %}
+            
+
+            {% for item in head_link %}
+                
+                <link rel="{{item.rel}}" type="{{item.type}}" href="{{asset(item.href)}}"/>
+
+
+            {% endfor %}
+
+        {% endblock %}
+        
+    </head>
+    <body>
+        
+        {% block menu_nav %}
+            <div>
+                    <div class="container">
+                        <div class="navbar-collapse collapse">
+                            
+                        <ul class=" menu nav navbar-nav">
+                            {% for item in urls %}
+                                <li>
+                                    
+                                    <a href="{{item.url}}" class="leaf">{{item.title}}</a>
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+
+                        </div>
+                    </div>
+            </div>
+        {% endblock %}    
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}        
+        {% block javascripts %}{% endblock %}
+
+    </body>
+    
+</html>

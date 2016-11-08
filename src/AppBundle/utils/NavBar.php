@@ -1,0 +1,32 @@
+<?php
+
+namespace AppBundle\utils;
+
+
+class NavBar{
+
+	
+	var $links;
+
+	public function __construct()
+	{
+
+		$this->links= array(
+			array(
+				"url"	=>	"/",
+				"title" => 	"inicio"),
+			array(
+				"url"	=>	"/prueba", 
+				"title" =>	"prueba"),
+			array(
+				"url" 	=>	"colaborador/add",
+				"title"	=>	"Añadir Partner",
+				),
+		);
+	}
+
+	public function getLinks()
+	{
+		return $this->links;
+	}
+}

@@ -1,0 +1,11 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+prueba:
+    path: /prueba
+    defaults: { _controller: AppBundle:Prueba:index }
+
+colaborador_add:
+    path: /colaborador/add
+    defaults: { _controller: AppBundle:Colaborador:add }

@@ -1,66 +1,42 @@
 <?php
 
 
-namespace AppBundle\Entity;
+
+namespace AppBundle\forms;
 
 
-use Doctrine\ORM\Mapping as ORM;
-
-
-/**
-* @ORM\Entity
-* @ORM\Table(name="Asistente")
-*/
-class Asistente
+class AsistenteForm
 {
-	/**
-	* @ORM\Id
-	* @ORM\Column(type="string",length=9)
-	*/
 	private $DNI;
-
-	/**
-	* @ORM\Column(type="string",length=60)
-	*/
 
 	private $nombre;
 
-	/**
-	* @ORM\Column(type="string",length=100)
-	*/
-
 	private $apellidos;
-	
-	/**
-	* @ORM\Column(type="string",length=9)
-	*/
 
 	private $telefono;
 
-	/**
-	* @ORM\Column(type="string",length=200)
-	*/
 	
 	private $email;
 
-    /**
-    * @ORM\Column(type="string")
-    */
-    private $image;
+    private $file;
 
-/*
-    public function __construct($dni)
-    {
-        $this->DNI=$dni;
-    }
-*/
+
+
     /**
      * Set DNI
      *
      * @param string $dNI
      * @return Asistente
      */
-    
+    public function __construct()
+    {
+    	$this->DNI="";
+    	$this->nombre="";
+    	$this->apellidos="";
+    	$this->telefono="";
+    	$this->email="";
+    	$this->file="";
+    }
     public function setDNI($dNI)
     {
         $this->DNI = $dNI;
@@ -171,25 +147,25 @@ class Asistente
     }
 
     /**
-     * Set image
+     * Set file
      *
-     * @param string $image
+     * @param string $file
      * @return Asistente
      */
-    public function setImage($image)
+    public function setFile($file)
     {
-        $this->image = $image;
+        $this->file = $file;
 
         return $this;
     }
 
     /**
-     * Get image
+     * Get file
      *
      * @return string 
      */
-    public function getImage()
+    public function getFile()
     {
-        return $this->image;
+        return $this->file;
     }
 }

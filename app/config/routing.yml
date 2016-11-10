@@ -6,6 +6,10 @@ prueba:
     path: /prueba
     defaults: { _controller: AppBundle:Prueba:index }
 
+inscripcion:
+    path: /inscripcion
+    defaults: { _controller: AppBundle:Asistente:singUp }
+
 colaborador_add:
     path: /colaborador/add
     defaults: { _controller: AppBundle:Colaborador:add }

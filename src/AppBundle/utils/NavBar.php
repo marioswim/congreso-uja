@@ -16,6 +16,9 @@ class NavBar{
 				"url"	=>	"/",
 				"title" => 	"inicio"),
 			array(
+				"url" 	=> 	"/inscripcion",
+				"title" =>	"Inscripción"),
+			array(
 				"url"	=>	"/prueba", 
 				"title" =>	"prueba"),
 			array(

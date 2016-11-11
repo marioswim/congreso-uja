@@ -9,6 +9,7 @@ Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 Use AppBundle\utils\NavBar;
 use AppBundle\utils\HeadLinks;
 use AppBundle\Entity\Asistente;
+use Assetic\Exception\Exception; 
 
 Use AppBundle\forms\AsistenteForm;
 
@@ -40,14 +41,14 @@ class AsistenteController extends Controller
 
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
-	       	$aux	=	$this->insert($form->getData());
+	      
+	     
+	      
+	      $this->insert($form->getData());
+	      return $this->redirect("/");
+	      
 
-	       	/*if(is_string($aux))
-
-	       		$this->errorForm($aux,$form);
-	       	
-	       	else
-	       		return $aux;*/
+	      
 	    }
 
 	    $params["form"]	=	$form->createView();
@@ -80,10 +81,15 @@ class AsistenteController extends Controller
 
 			$em->persist($asistente);
 
+
 			$em 	->	flush();
+
+			
 
 			$file 	->	move("/var/www/congreso/".$dir,$fileName);
 			$this	->	sendMail($asistente);
+			
+
 
 		}
 	private function sendMail($asistente)
@@ -111,14 +117,29 @@ class AsistenteController extends Controller
             'text/html'
         );
 
-	    $this->get('mailer')->send($message);
+	    return $this->get('mailer')->send($message);
 
 	}
 
-	public function showAction()
+	public function showPublicAction()
 	{
-		//cargar Asistentes
+		
+		$navbar     =   new NavBar();
+        $headlinks  =   new HeadLinks();   
+        $links      =   $navbar->getLinks();
+        $headlinks_links    = $headlinks->getLinks();
+        
+		$em 	= 	$this->getDoctrine()->getRepository("AppBundle:Asistente");
+		$public =	$em->findByPublic(1);
 
+		$params=array(
+            "title_page"    =>  "Asistentes", 
+            "head_link"     =>  $headlinks_links,
+            "publics"		=>	$public,
+            "urls"          =>  $links,
+        );
+
+		return $this->render('default/asistentes.html.twig', $params);
 
 	}
 

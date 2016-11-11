@@ -52,11 +52,6 @@ class AsistenteController extends Controller
 
 	    $params["form"]	=	$form->createView();
 	    return $this->render('forms/colaborador.html.twig', $params);
-		//
-			//insert
-			//mover foto
-			//mandar correo irene
-
 
 	}
 		private function insert($data)
@@ -69,7 +64,6 @@ class AsistenteController extends Controller
 			$fileName 	= 	$dni.".".$file->guessExtension();
 
 			
-			dump($file);
 
 			$asistente 	=	new Asistente();
 
@@ -78,6 +72,7 @@ class AsistenteController extends Controller
 			$asistente 	->	setApellidos($data 	->	getApellidos());
 			$asistente 	->	setEmail($data 		->	getEmail());
 			$asistente 	->	setTelefono($data 	->	getTelefono());
+			$asistente 	->	setPublic($data 	->	getPublic());
 
 			$asistente 	->	setImage($dir."".$fileName);
 
@@ -85,7 +80,7 @@ class AsistenteController extends Controller
 
 			$em->persist($asistente);
 
-			//$em 	->	flush();
+			$em 	->	flush();
 
 			$file 	->	move("/var/www/congreso/".$dir,$fileName);
 			$this	->	sendMail($asistente);
@@ -94,38 +89,30 @@ class AsistenteController extends Controller
 	private function sendMail($asistente)
 	{
 
+		$params=array(
+			"nombre"		=>	$asistente->getNombre(),
+			"apellidos" 	=>	$asistente->getApellidos(),
+			"mail" 			=>	$asistente->getEmail(),
+			"telefono"		=>	$asistente->getTelefono(),
+			"file"			=> 	$asistente->getImage(),
+			);
+
 		$message = \Swift_Message::newInstance()
-        ->setSubject('Inscripción '.$asistente->getDNI())
+		->attach(\Swift_Attachment::fromPath($params["file"]))
+        ->setSubject('[Jornadas]: Inscripción '.$asistente->getDNI())
         ->setFrom('quesada@ujaen.es')
         ->setTo('quesada@ujaen.es')
-        ->setBody(
-
-        	"D\Dña ".$asistente->getNombre()." ".$asistente->getApellidos()." se ha inscrito con la siguiente información:<br>".
-			"<ul>
-				<li>Telefono:".$asistente->getTelefono()." </li>
-				<li>Telefono:".$asistente->getEmail()." </li>
-			</ul>"        	
-            /*$this->renderView(
+        ->setBody(        	    	
+            $this->renderView(
                 // app/Resources/views/Emails/registration.html.twig
-                'Emails/registration.html.twig',
-                array('name' => $name)
+                'Emails/inscripcion.html.twig',
+                array('asis' => $params)
             ),
-            'text/html'*/
+            'text/html'
         );
-	        /*
-	         * If you also want to include a plaintext version of the message
-	        ->addPart(
-	            $this->renderView(
-	                'Emails/registration.txt.twig',
-	                array('name' => $name)
-	            ),
-	            'text/plain'
-	        )
-	        */
 
 	    $this->get('mailer')->send($message);
 
-	    dump($message);
 	}
 
 	public function showAction()
@@ -152,8 +139,9 @@ class AsistenteController extends Controller
 			->add("apellidos","text",array("label"=>"Apellidos"))
 			->add("telefono","text",array("label"=>"Teléfono"))
 			->add("email","text",array("label"=>"Email"))
+			->add("public","checkbox",array("label"=>"Permito que mi asistencia se publique en el listado de asistentes",
+				"required" => false,))
 			->add("file","file", array("label"=>"Foto Identificativa"))
-			//añadir checkbox para permitir que se publique su nombre en un listado.
 			->add('save', 'submit', array(
 				'label' => 'Guardar',
 				"attr" => array("class" => "btn btn-primary")

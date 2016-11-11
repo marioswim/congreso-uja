@@ -48,6 +48,11 @@ class Asistente
     */
     private $image;
 
+    /**
+    * @ORM\Column(type="boolean")
+    */
+
+    private $public;
 /*
     public function __construct($dni)
     {
@@ -191,5 +196,28 @@ class Asistente
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set public
+     *
+     * @param boolean $public
+     * @return Asistente
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return boolean 
+     */
+    public function getPublic()
+    {
+        return $this->public;
     }
 }

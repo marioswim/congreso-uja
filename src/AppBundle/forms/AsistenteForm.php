@@ -20,6 +20,7 @@ class AsistenteForm
 
     private $file;
 
+    private $public;
 
 
     /**
@@ -168,4 +169,23 @@ class AsistenteForm
     {
         return $this->file;
     }
+
+    public function setPublic($public)
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return string 
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+
 }

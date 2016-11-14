@@ -12,6 +12,20 @@ inscripcion:
 asistentes:
     path: /asistentes
     defaults: { _controller:AppBundle:Asistente:showPublic }
+
 colaborador_add:
     path: /colaborador/add
     defaults: { _controller: AppBundle:Colaborador:add }
+
+llegar:
+    path: /como-llegar
+    defaults: { _controller: AppBundle:Llegar:index }
+llegar_add:
+    path: /como-llegar/add
+    defaults: { _controller: AppBundle:Llegar:add }
+llegar_edit:
+    path: /como-llegar/{keyword}/edit
+    defaults: { _controller: AppBundle:Llegar:edit }
+llegar_remove:
+    path: /como-llegar/{keyword}/delete
+    defaults: { _controller: AppBundle:Llegar:delete }

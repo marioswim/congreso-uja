@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}   {{title_page}}  {% endblock %}
+
+
+{%block body %}
+<div class="container">    
+
+    {% for met in content %}
+        {% autoescape false %}
+        	<div id="{{met.id}}">
+        		<h4>{{met.nombre}}</h4>
+                <div class="text">
+                    {{met.text}}
+                </div>
+        	</div>
+        {% endautoescape %}
+    {%endfor%}
+</div>
+    
+{% endblock %}
+
+{% block footer %}
+
+
+    <div class="container">
+        
+
+    </div>
+
+{% endblock %}

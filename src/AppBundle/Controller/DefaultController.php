@@ -39,6 +39,14 @@ class DefaultController extends Controller
             "content"       =>  "hola",
             "urls"          =>  $links,
         );
+        $params["map"]=$this->loadIndexMap();
         return $this->render('default/index.html.twig', $params);
     }
+        private function loadIndexMap()
+        {
+
+
+            return 'https://www.google.com/maps/d/embed?mid=1s9Gt2Cp-WvPhIHLDpdZihT8xMHk';
+
+        }
 }

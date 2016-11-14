@@ -37,6 +37,7 @@ class DefaultController extends Controller
             "title_page"    =>  "inicio", 
             "head_link"     =>  $headlinks_links,
             "content"       =>  "hola",
+            "scripts"       =>  null,
             "urls"          =>  $links,
         );
         $params["map"]=$this->loadIndexMap();

@@ -30,7 +30,7 @@ class AsistenteController extends Controller
         $params=array(
             "title_page"    =>  "Registro", 
             "head_link"     =>  $headlinks_links,
-            
+	        "scripts"		=>	null,    
             "urls"          =>  $links,
         );
 		
@@ -45,7 +45,7 @@ class AsistenteController extends Controller
 	     
 	      
 	      $this->insert($form->getData());
-	      return $this->redirect("/");
+	      return $this->redirect("/como-llegar");
 	      
 
 	      
@@ -135,6 +135,7 @@ class AsistenteController extends Controller
 		$params=array(
             "title_page"    =>  "Asistentes", 
             "head_link"     =>  $headlinks_links,
+            "scripts"		=>	$headlinks->getScripts(),
             "publics"		=>	$public,
             "urls"          =>  $links,
         );

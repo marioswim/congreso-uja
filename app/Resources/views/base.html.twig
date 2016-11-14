@@ -12,6 +12,13 @@
 
 
             {% endfor %}
+            {% for item in scripts %}
+                
+                <script src="{{asset(item)}}"></script>
+
+
+            {% endfor %}
+
 
         {% endblock %}
         

@@ -5,10 +5,11 @@ namespace AppBundle\utils;
 class HeadLinks
 {
 	var $links;
-
+	var $scripts;
 
 	public function __construct()
 	{
+		$this->scripts=array("js/jquery-1.10.0.min.js");
 		$this->links=array(
 			array(
 				"type"	=>	"image/x-icon",
@@ -27,6 +28,10 @@ class HeadLinks
 		return $this->links;
 	}
 
+	public function getScripts()
+	{
+		return $this->scripts;
+	}
 	public function addLink($href,$rel,$type="")
 	{
 		$aux	=	$this->links;
@@ -34,6 +39,13 @@ class HeadLinks
 
 		array_push($aux, $item);
 		$this->links=$aux;
+	}
+
+	public function addScript($href)
+	{
+		$aux=$this->scripts;
+		array_push($aux, $href);
+		$this->scripts=$aux;
 	}
 
 

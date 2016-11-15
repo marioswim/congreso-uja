@@ -28,6 +28,10 @@ class NavBar{
 				"url" 	=>	"colaborador/add",
 				"title"	=>	"Añadir Partner",
 				),
+			array(
+				"url" 	=>	"/como-llegar",
+				"title"	=>	"Como Llegar",
+				),
 		);
 	}
 

@@ -104,7 +104,13 @@ class LlegarController extends Controller
 		$content=$em->findById($keyword);
 		$content=$content[0];
 
-		$form = $this->comoLlegarForm($content)->getForm();
+		$form = $this->comoLlegarForm($content);
+		$form = $form->add('delete', 'submit', array(
+				'label' => 'Eliminar',
+				"attr" => array("class" => "btn btn-danger")
+				));
+
+		$form=$form->getForm();
 
 		$form -> handleRequest($request);
 
@@ -112,9 +118,18 @@ class LlegarController extends Controller
 	    {	        
 	      
 	     
+	      	switch ($form->getClickedButton()->getName()) 
+			{
+	      	case 'delete':
+	      		return $this->redirect("/como-llegar/".$keyword."/delete");
+	      		break;
+	      	
+	      	case "save":
+	      		$this->update($form->getData(),$keyword);
+	      		return $this->redirect("/como-llegar");
+	      		break;
+	      	};
 	      
-	      $this->update($form->getData(),$keyword);
-	      return $this->redirect("/como-llegar");
 	      
 
 	      
@@ -142,36 +157,17 @@ class LlegarController extends Controller
             "scripts"		=>	$headScripts,
             "urls"          =>  $links,
         );
-		$em = $this->getDoctrine()->getEntityManager()->getRepository("AppBundle:MetodoLlegada");
+		$em = $this->getDoctrine()->getManager();
 
-		$content=$em->find($keyword);
-
-		$em->remove($content);
+		$prod=$em->getRepository("AppBundle:MetodoLlegada")->find($keyword);
 		
-		$em->flush();
-
-		/*$form = $this->comoLlegarForm($content)->getForm();
-
-		$form -> handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) 
-	    {	        
-	      
-	     
-	      
-	      $this->update($form->getData(),$keyword);
-	      return $this->redirect("/como-llegar");
-	      
-
-	      
-	    }
-		$params["form"]	 =	$form->createView();
-	    return $this->render('forms/colaborador.html.twig', $params);*/
+		$em->remove($prod);
+		$em->flush();	
+				
 	    return $this->redirect("/como-llegar");
 	}
 	private function comoLlegarForm($lleg = null)
 	{
-		dump($lleg);
 		if(is_null($lleg))
 			$lleg =new MetodoLlegada();
 

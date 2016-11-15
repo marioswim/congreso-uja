@@ -19,6 +19,10 @@ class HeadLinks
 				"type"	=>	"text/css",
 				"href"	=>	"css/bootstrap/css/bootstrap.css",
 				"rel"	=>	"stylesheet",),
+			array(
+				"type"	=>	"text/css",
+				"href"	=>	"css/base.css",
+				"rel"	=>	"stylesheet",)
 
 			);
 	}

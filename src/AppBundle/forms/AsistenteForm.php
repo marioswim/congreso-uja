@@ -22,7 +22,13 @@ class AsistenteForm
 
     private $public;
 
+    private $polity;
 
+    private $dir;
+
+    private $cp;
+
+    private $provincia;
     /**
      * Set DNI
      *
@@ -187,5 +193,70 @@ class AsistenteForm
         return $this->public;
     }
 
+    public function setPolity($polity)
+    {
+        $this->polity = $polity;
 
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return string 
+     */
+    public function getPolity()
+    {
+        return $this->polity;
+    }
+
+    public function setDir($dir)
+    {
+        $this->dir = $dir;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return string 
+     */
+    public function getDir()
+    {
+        return $this->dir;
+    }
+
+    public function setCp($cp)
+    {
+        $this->cp = $cp;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return string 
+     */
+    public function getCp()
+    {
+        return $this->cp;
+    }
+    public function setProvincia($provincia)
+    {
+        $this->provincia= $provincia;
+
+        return $this;
+    }
+
+    /**
+     * Get public
+     *
+     * @return string 
+     */
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
 }

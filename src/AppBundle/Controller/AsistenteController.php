@@ -25,6 +25,8 @@ class AsistenteController extends Controller
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
         
+        $headlinks->addLink("css/inscripcion.css","stylesheet","text/css");
+
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
@@ -43,7 +45,6 @@ class AsistenteController extends Controller
 	    {	        
 	      
 	     
-	      
 	      $this->insert($form->getData());
 	      return $this->redirect("/como-llegar");
 	      
@@ -52,15 +53,18 @@ class AsistenteController extends Controller
 	    }
 
 	    $params["form"]	=	$form->createView();
-	    return $this->render('forms/colaborador.html.twig', $params);
+	    return $this->render('forms/inscripcion.html.twig', $params);
 
 	}
 		private function insert($data)
 		{
 			$dir="files/images/inscritos/";
 
+			
+
 			$file 	=	$data->getFile();
 			$dni 	= 	$data->getDNI();
+			dump($file);
 
 			$fileName 	= 	$dni.".".$file->guessExtension();
 
@@ -156,14 +160,26 @@ class AsistenteController extends Controller
 		$asis = new AsistenteForm();
 
 		$form = $this->createFormBuilder($asis)
-			->add("DNI","text",array("label"=>"DNI"))
-			->add("nombre","text",array("label"=>"Nombre"))
-			->add("apellidos","text",array("label"=>"Apellidos"))
-			->add("telefono","text",array("label"=>"Teléfono"))
-			->add("email","text",array("label"=>"Email"))
+			->add("nombre","text",array("label"=>false,"attr"=>array("id" => "nombre","class" => "datos","placeholder"=>"Nombre")))
+			->add("apellidos","text",array("label"=>false,"attr"=>array("id" => "apellidos","class" => "datos","placeholder"=>"Apellidos")))
+			->add("DNI","text",array("label"=>false,"attr"=>array("id" => "dni","class" => "datos","placeholder"=>"DNI")))
+			->add("telefono","text",array("label"=>false,"attr"=>array("id" => "telefono","class" => "contact","placeholder"=>"Teléfono")))
+			->add("email","text",array("label"=>false,"attr"=>array("id" => "email","class" => "contact","placeholder"=>"Email")))
+			->add("dir","text",array("label"=>false,"attr"=>array("id" => "direcion","class" => "location","placeholder"=>"Dirección")))
+			->add("cp","text",array("label"=>false,"attr"=>array("id" => "cp","class" => "location","placeholder"=>"Código Postal")))
+			->add("provincia","text",array("label"=>false,"attr"=>array("id" => "provincia","class" => "location","placeholder"=>"Provincia")))
+			->add("file","file", array("label"=>"Foto Identificativa"))
+			
+
+
+
+
+			->add("polity","checkbox",array("label"=>"He leido y acepto los condiciones",
+				"required" => True,))
 			->add("public","checkbox",array("label"=>"Permito que mi asistencia se publique en el listado de asistentes",
 				"required" => false,))
-			->add("file","file", array("label"=>"Foto Identificativa"))
+
+
 			->add('save', 'submit', array(
 				'label' => 'Guardar',
 				"attr" => array("class" => "btn btn-primary")

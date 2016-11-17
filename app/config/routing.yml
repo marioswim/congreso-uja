@@ -29,3 +29,10 @@ llegar_edit:
 llegar_remove:
     path: /como-llegar/{keyword}/delete
     defaults: { _controller: AppBundle:Llegar:delete }
+
+login:
+    path: /admin/login
+    defaults: { _controller: AppBundle:Administrator:login }
+logout:
+    path: /admin/logout
+    defaults: { _controller: AppBundle:Administrator:logout }

@@ -5,11 +5,12 @@
 
 {%block body %}
 <div class="container">    
-
+    <a id="add-medio" href="/como-llegar/add" title="Añadir Medio Transporte"></a>
     {% for met in content %}
         {% autoescape false %}
         	<div id="{{met.id}}" class="col-medio">
-        		<h4>{{met.nombre}}</h4>
+                
+        		<h4>{{met.nombre}} <a href="/como-llegar/{{ met.id }}/edit" title="Editar" id="edit-medio"></a></h4>
                 <div class="text">
                     {{met.text}}
                 </div>

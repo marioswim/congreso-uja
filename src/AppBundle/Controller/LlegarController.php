@@ -23,11 +23,13 @@ class LlegarController extends Controller
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
         
+        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
         $headlinks_links    = $headlinks->getLinks();
         $headScripts		= $headlinks->getScripts();
 
+
         $params=array(
-            "title_page"    =>  "Registro", 
+            "title_page"    =>  "Como Llegar", 
             "head_link"     =>  $headlinks_links,
             "scripts"		=>	$headScripts,
             "urls"          =>  $links,
@@ -36,7 +38,19 @@ class LlegarController extends Controller
 		$content	=	$em->findAll();
 
 		$params["content"]=$content;
-	    return $this->render('default/comollegar.html.twig', $params);
+
+
+		$securityContext = $this->container->get('security.authorization_checker');
+
+		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+		{
+		   	return $this->render('administration/comollegar.html.twig', $params);
+		}
+		elseif ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
+		{
+			return $this->render('default/comollegar.html.twig', $params);
+		}
+	    
 		
 	}
 
@@ -48,13 +62,14 @@ class LlegarController extends Controller
         $links      =   $navbar->getLinks();
         
         $headlinks->addScript("ckeditor/ckeditor.js");
-
+        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
+        
 
 
         $headlinks_links    = $headlinks->getLinks();
         $headScripts		= $headlinks->getScripts();
         $params=array(
-            "title_page"    =>  "Registro", 
+            "title_page"    =>  "Añadir Medio transporte", 
             "head_link"     =>  $headlinks_links,
             "scripts"		=>	$headScripts,
             "urls"          =>  $links,
@@ -78,7 +93,7 @@ class LlegarController extends Controller
 	    }
 
 	    $params["form"]	 =	$form->createView();
-	    return $this->render('forms/colaborador.html.twig', $params);
+	    return $this->render('forms/default.html.twig', $params);
 	}
 
 	public function editAction(Request $request,$keyword)
@@ -88,13 +103,14 @@ class LlegarController extends Controller
         $links      =   $navbar->getLinks();
         
         $headlinks->addScript("ckeditor/ckeditor.js");
-
+        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
+        
 
 
         $headlinks_links    = $headlinks->getLinks();
         $headScripts		= $headlinks->getScripts();
         $params=array(
-            "title_page"    =>  "Registro", 
+            "title_page"    =>  "Editar", 
             "head_link"     =>  $headlinks_links,
             "scripts"		=>	$headScripts,
             "urls"          =>  $links,
@@ -135,7 +151,7 @@ class LlegarController extends Controller
 	      
 	    }
 		$params["form"]	 =	$form->createView();
-	    return $this->render('forms/colaborador.html.twig', $params);
+	    return $this->render('forms/default.html.twig', $params);
 
 
 	}
@@ -152,7 +168,7 @@ class LlegarController extends Controller
         $headlinks_links    = $headlinks->getLinks();
         $headScripts		= $headlinks->getScripts();
         $params=array(
-            "title_page"    =>  "Registro", 
+            "title_page"    =>  "Borrar", 
             "head_link"     =>  $headlinks_links,
             "scripts"		=>	$headScripts,
             "urls"          =>  $links,

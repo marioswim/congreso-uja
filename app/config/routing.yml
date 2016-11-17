@@ -21,13 +21,13 @@ llegar:
     path: /como-llegar
     defaults: { _controller: AppBundle:Llegar:index }
 llegar_add:
-    path: /como-llegar/add
+    path: /admin/como-llegar/add
     defaults: { _controller: AppBundle:Llegar:add }
 llegar_edit:
-    path: /como-llegar/{keyword}/edit
+    path: /admin/como-llegar/{keyword}/edit
     defaults: { _controller: AppBundle:Llegar:edit }
 llegar_remove:
-    path: /como-llegar/{keyword}/delete
+    path: /admin/como-llegar/{keyword}/delete
     defaults: { _controller: AppBundle:Llegar:delete }
 
 login:

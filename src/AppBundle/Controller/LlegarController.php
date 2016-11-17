@@ -63,7 +63,7 @@ class LlegarController extends Controller
         
         $headlinks->addScript("ckeditor/ckeditor.js");
         $headlinks->addLink("css/llegar.css","stylesheet","text/css");
-        
+
 
 
         $headlinks_links    = $headlinks->getLinks();
@@ -104,7 +104,7 @@ class LlegarController extends Controller
         
         $headlinks->addScript("ckeditor/ckeditor.js");
         $headlinks->addLink("css/llegar.css","stylesheet","text/css");
-        
+
 
 
         $headlinks_links    = $headlinks->getLinks();
@@ -137,7 +137,7 @@ class LlegarController extends Controller
 	      	switch ($form->getClickedButton()->getName()) 
 			{
 	      	case 'delete':
-	      		return $this->redirect("/como-llegar/".$keyword."/delete");
+	      		return $this->redirect("/admin/como-llegar/".$keyword."/delete");
 	      		break;
 	      	
 	      	case "save":
@@ -188,7 +188,6 @@ class LlegarController extends Controller
 			$lleg =new MetodoLlegada();
 
 		$form = $this->createFormBuilder($lleg)
-			//->add("nombre","text",array("label" => "Nombre"))
 			->add("id","choice",
 				array("choices" => 
 					array(

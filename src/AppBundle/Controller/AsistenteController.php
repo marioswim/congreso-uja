@@ -5,7 +5,9 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 Use AppBundle\utils\NavBar;
 use AppBundle\utils\HeadLinks;
 use AppBundle\Entity\Asistente;
@@ -30,7 +32,7 @@ class AsistenteController extends Controller
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
-            "title_page"    =>  "Registro", 
+            "title_page"    =>  "Inscripción", 
             "head_link"     =>  $headlinks_links,
 	        "scripts"		=>	null,    
             "urls"          =>  $links,
@@ -64,9 +66,9 @@ class AsistenteController extends Controller
 
 			$file 	=	$data->getFile();
 			$dni 	= 	$data->getDNI();
-			dump($file);
+			$date 	= new \DateTime("now");
 
-			$fileName 	= 	$dni.".".$file->guessExtension();
+			$fileName 	= 	$date->format("dmYHis").".".$file->guessExtension();
 
 			
 
@@ -78,7 +80,13 @@ class AsistenteController extends Controller
 			$asistente 	->	setEmail($data 		->	getEmail());
 			$asistente 	->	setTelefono($data 	->	getTelefono());
 			$asistente 	->	setPublic($data 	->	getPublic());
-
+			$asistente 	-> 	setCodPostal($data 	->	getCp());
+			$asistente 	-> 	setUniversidad($data ->	universidad);
+			$asistente 	-> 	setDireccion($data 	->	getDir());
+			$asistente 	-> 	setCargo($data 		-> 	cargo);
+			$asistente 	-> 	setProvincia($data 	->	getProvincia());
+			$asistente 	-> 	setCena($data 		->	cena);
+			$asistente 	-> 	setDate();
 			$asistente 	->	setImage($dir."".$fileName);
 
 			$em 	= 	$this->getDoctrine()->getManager();
@@ -104,6 +112,11 @@ class AsistenteController extends Controller
 			"apellidos" 	=>	$asistente->getApellidos(),
 			"mail" 			=>	$asistente->getEmail(),
 			"telefono"		=>	$asistente->getTelefono(),
+			"universidad" 	=> 	$asistente->getUniversidad(),
+			"cargo"			=>	$asistente->getCargo(),
+			"direccion"		=> 	$asistente->getDireccion(),
+			"cod_postal"	=> 	$asistente->getCodPostal(),
+			"provincia"		=>	$asistente->getProvincia(),
 			"file"			=> 	$asistente->getImage(),
 			);
 
@@ -131,6 +144,10 @@ class AsistenteController extends Controller
 		$navbar     =   new NavBar();
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
+
+        $headlinks->addScript("js/asistentes.js");
+        $headlinks->addLink("css/asistentes.css","stylesheet","text/css");
+
         $headlinks_links    = $headlinks->getLinks();
         
 		$em 	= 	$this->getDoctrine()->getRepository("AppBundle:Asistente");
@@ -144,36 +161,123 @@ class AsistenteController extends Controller
             "urls"          =>  $links,
         );
 
-		return $this->render('default/asistentes.html.twig', $params);
+		$securityContext = $this->container->get('security.authorization_checker');		
+
+		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+		{			
+		   	return $this->render('administration/asistentes.html.twig', $params);
+		}
+		elseif ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
+		{
+			return $this->render('default/asistentes.html.twig', $params);
+		}
 
 	}
 
-	public function publicAction()
+	public function adminShowAction()
 	{
 
 
+		$navbar     =   new NavBar();
+        $headlinks  =   new HeadLinks();   
+        $links      =   $navbar->getLinks();
+        $headlinks_links    = $headlinks->getLinks();     
+		
+
+		$params=array(
+            "title_page"    =>  "Asistentes", 
+            "head_link"     =>  $headlinks_links,
+            "scripts"		=>	$headlinks->getScripts(),            
+            "urls"          =>  $links,
+        );
+
+		$all = $this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente")->findBy(array(),array("date" => "asc"));
+
+		$params["content"]=$all;
+
+
+		return $this->render('administration/asistentes_tabla.html.twig', $params);
+		dump($all);
 
 	}
+	public function downloadAction()
+	{
 
+		
+
+        $container = $this->container;
+        $response = new StreamedResponse(function() use($container) 
+        {
+			$all = $this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente")->findBy(array(),array("date" => "asc"));
+
+            
+            $file = fopen('php://output', 'r+');
+            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Pagado","Fecha Inscripción","\n");
+			$title_row=implode(";",$title_row);
+			fwrite($file, $title_row);
+
+					foreach ($all as $asis) 
+					{
+						$date=$asis->getDate();
+						$date_string=$date->format("d-m-Y H:i:s");
+						$info=array(
+							$asis->getDNI(),
+							$asis->getNombre(),
+							$asis->getApellidos(),
+							$asis->getDireccion(),
+							$asis->getCodPostal(),
+							$asis->getProvincia(),
+							$asis->getUniversidad(),
+							$asis->getCargo(),
+							$asis->getTelefono(),
+							$asis->getEmail(),
+							$asis->getPublic(),
+							$asis->getCena(),
+							$asis->getPagado(),
+							$date_string,"\n");
+
+						$aux=implode(";", $info);
+						fwrite($file, $aux);
+					}
+
+			
+
+            fclose($file);
+        });
+
+        $response->headers->set('Content-Type', 'application/force-download');
+        $response->headers->set('Content-Disposition','attachment; filename="export.csv"');
+
+        return $response;
+
+
+		
+
+
+
+	}
 	private function singUpForm()
 	{
 		$asis = new AsistenteForm();
 
 		$form = $this->createFormBuilder($asis)
-			->add("nombre","text",array("label"=>false,"attr"=>array("id" => "nombre","class" => "datos","placeholder"=>"Nombre")))
-			->add("apellidos","text",array("label"=>false,"attr"=>array("id" => "apellidos","class" => "datos","placeholder"=>"Apellidos")))
-			->add("DNI","text",array("label"=>false,"attr"=>array("id" => "dni","class" => "datos","placeholder"=>"DNI")))
-			->add("telefono","text",array("label"=>false,"attr"=>array("id" => "telefono","class" => "contact","placeholder"=>"Teléfono")))
-			->add("email","text",array("label"=>false,"attr"=>array("id" => "email","class" => "contact","placeholder"=>"Email")))
+			->add("nombre","text",array("label"=>false,"attr"=>array("id" => "nombre","class" => "datos","placeholder"=>"Nombre","maxlength" => 100)))
+			->add("apellidos","text",array("label"=>false,"attr"=>array("id" => "apellidos","class" => "datos","placeholder"=>"Apellidos","maxlength" => 100)))
+			->add("DNI","text",array("label"=>false,"attr"=>array("id" => "dni","class" => "datos","placeholder"=>"DNI","maxlength" => 9)))
+			->add("universidad","text",array("label"=>false,"attr"=>array("id" => "uni","class" => "procedencia","placeholder"=>"Universidad","maxlength" => 200)))
+			->add("cargo","text",array("label"=>false,"attr"=>array("id" => "cargo","class" => "procedencia","placeholder"=>"Cargo")))
+			->add("telefono","text",array("label"=>false,"attr"=>array("id" => "telefono","class" => "contact","placeholder"=>"Teléfono","maxlength" => 9)))
+			->add("email","text",array("label"=>false,"attr"=>array("id" => "email","class" => "contact","placeholder"=>"Email","maxlength" => 100)))
 			->add("dir","text",array("label"=>false,"attr"=>array("id" => "direcion","class" => "location","placeholder"=>"Dirección")))
-			->add("cp","text",array("label"=>false,"attr"=>array("id" => "cp","class" => "location","placeholder"=>"Código Postal")))
-			->add("provincia","text",array("label"=>false,"attr"=>array("id" => "provincia","class" => "location","placeholder"=>"Provincia")))
+			->add("cp","text",array("label"=>false,"attr"=>array("id" => "cp","class" => "location","placeholder"=>"Código Postal","maxlength"=>"5")))
+			->add("provincia","text",array("label"=>false,"attr"=>array("id" => "provincia","class" => "location","placeholder"=>"Provincia","maxlength" => 200)))
 			->add("file","file", array("label"=>"Foto Identificativa"))
 			
 
 
 
-
+			->add("cena","checkbox",array("label"=>"Deseo Asistir a la cena del Jueves 9 de febrero.",
+				"required" => false,))
 			->add("polity","checkbox",array("label"=>"He leido y acepto los condiciones",
 				"required" => True,))
 			->add("public","checkbox",array("label"=>"Permito que mi asistencia se publique en el listado de asistentes",

@@ -12,6 +12,13 @@ inscripcion:
 asistentes:
     path: /asistentes
     defaults: { _controller:AppBundle:Asistente:showPublic }
+asistente_admin:
+    path: /admin/asistentes
+    defaults: { _controller:AppBundle:Asistente:adminShow }
+asistente_download:
+    path: /admin/asistentes/download
+    defaults: { _controller:AppBundle:Asistente:download }
+
 
 colaborador_add:
     path: /colaborador/add

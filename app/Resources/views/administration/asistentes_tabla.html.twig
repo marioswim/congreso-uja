@@ -1,0 +1,85 @@
+{% extends "base.html.twig" %}
+
+{% block title %}   {{title_page}}  {% endblock %}
+{%block body %}
+<table class="table-striped">
+	<thead>
+		<tr>
+			<th class="text-center">
+				DNI
+			</th>
+		
+			<th class="text-center">
+				Nombre
+			</th>
+
+			<th class="text-center">
+				Apellidos
+			</th>
+
+			<th class="text-center">
+				Telefono
+			</th>
+
+			<th class="text-center">
+				email
+			</th>
+
+			<th class="text-center">
+				Asiste a Cena
+			</th>
+
+			<th class="text-center">
+				Perfil Público
+			</th>
+
+			<th class="text-center">
+				Pagado
+			</th>
+		</tr>
+
+	</thead>
+	<tbody>
+		{% for asis in content %}
+
+		<tr>
+			<th class="text-center">
+				{{asis.dni}}
+			</th>
+
+			<th>
+				{{asis.nombre}}
+			</th>
+
+			<th>
+				{{asis.apellidos}}
+			</th>
+
+			<th class="text-center">
+				{{asis.telefono}}
+			</th>
+
+			<th>
+				{{asis.email}}
+			</th>
+
+			<th class="text-center">
+				{{asis.cena}}
+			</th>
+
+			<th class="text-center">
+				{{asis.public}}
+			</th>
+
+			<th class="text-center">
+				{{asis.pagado}}
+			</th>
+		</tr>
+
+
+		{% endfor %}
+	</tbody>
+
+</table>
+<a class="btn btn-primary" href="/admin/asistentes/download">Descargar</a>
+{%endblock %}

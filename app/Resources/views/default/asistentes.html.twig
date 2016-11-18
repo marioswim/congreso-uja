@@ -5,29 +5,32 @@
 
 {%block body %}
 <div class="container">
-    
-    {{ dump(publics) }}
+    {%block admin%}{%endblock%}
 
     {% for asis in publics %}
 
-    	<div class="asistente">
-    		<h4>{{asis.nombre}} {{asis.apellidos}}</h4>
-    		<img src="{{asset(asis.image)}}">
-    		<p>Teléfono: {{asis.telefono}}</p>
-    		<p>Email: {{asis.email}}</p>
-    	</div>
+    <div class="asistente">
+        <h4>{{asis.nombre}} {{asis.apellidos}}</h4>
+        <div class="info-principal">    
+            <a href="{{asset(asis.image)}}" ><img src="{{asset(asis.image)}}" class="foto-asistente"></a>
+            <p>{{asis.universidad}}</p>
+                <p>{{asis.cargo}}</p>   
+                <p>Teléfono: {{asis.telefono}}</p>
+                <p>Email: {{asis.email}}</p>
+        </div>
+    </div>
 
     {%endfor%}
-</div>
-    
+
+</diV>
 {% endblock %}
 
 {% block footer %}
 
 
-    <div class="container">
-        
+<div class="container">
 
-    </div>
+
+</div>
 
 {% endblock %}

@@ -12,7 +12,7 @@
 	<!--{{form_start(form)}}
 	{{form_end(form)}}
 	{{dump(form)}}-->
-	<form name="{{form.vars.full_name}}" method="{{form.vars.method}}" >
+	<form name="{{form.vars.full_name}}" method="{{form.vars.method}}" enctype="multipart/form-data" >
 		{% for key,value in form.children %}
 		
 		
@@ -25,13 +25,14 @@
 
 		{%  if value.vars.block_prefixes.1=="file" %}
 		<div>
-			<input type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}" required="{{value.vars.required}}"/>
+			<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}"  required="{{value.vars.required}}"/>
 		</div>
 		{% endif%}
 
 		{%  if value.vars.block_prefixes.1=="choice" %}
 
 			<div class="{{value.vars.attr.class}}">
+			{% set i=0 %}
 			{% for choice in value.children %}
 				{% if  choice.vars.checked ==1 %}
 					{% set checked="checked='checked'"%}
@@ -39,9 +40,17 @@
 					{%set checked=''%}
 				{%endif%}
 				<div id="{{choice.vars.id}}">
-				<input  type="radio" name="{{choice.vars.full_name}}" value="{{choice.vars.value}}" required="{{choice.vars.required}}" {{checked}}/>
-				<label>{{choice.vars.label}}</label>
+				
+				{% if attribute(count,i)>=3 %}
+					{% set disable='disabled' %}
+				{% else %}
+					{% set disable=""%}
+				{% endif %}
+
+				<input  type="radio" name="{{choice.vars.full_name}}" value="{{choice.vars.value}}" required="{{choice.vars.required}}" {{checked}} {{disable|default()}}/>
+				<label>{{choice.vars.label}} {{attribute(count,i)}}/35</label>
 				</div>
+				{%set i=i+1 %}
 			{% endfor%}
 			
 			</div>

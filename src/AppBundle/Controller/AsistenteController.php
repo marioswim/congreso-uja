@@ -41,8 +41,10 @@ class AsistenteController extends Controller
 		$form 	= 	$this->singUpForm();
 		$form 	=	$form->getForm();
 
-		$form -> handleRequest($request);
-
+		$form 		-> 	handleRequest($request);
+		$taller1	=	$this->countAsistentes("taller 1");
+		$taller2	=	$this->countAsistentes("taller 2");
+		$params["count"]	=	array($taller1,$taller2);
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
 	      
@@ -56,6 +58,7 @@ class AsistenteController extends Controller
 	    }
 
 	    $params["form"]	=	$form->createView();
+
 	    return $this->render('forms/inscripcion.html.twig', $params);
 
 	}
@@ -68,7 +71,6 @@ class AsistenteController extends Controller
 			$file 	=	$data->getFile();
 			$dni 	= 	$data->getDNI();
 			$date 	= new \DateTime("now");
-
 			$fileName 	= 	$date->format("dmYHis").".".$file->guessExtension();
 
 			
@@ -304,5 +306,18 @@ class AsistenteController extends Controller
 	}
 
 
+	private function countAsistentes($taller)
+	{
+		$em=$this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente");
 
+		$qb=$em->createQueryBuilder("a");
+		$qb->select("count(a)");
+		$qb->where("a.taller =:taller");
+		$qb->setParameter("taller",$taller);
+
+
+		$count1=$qb->getQuery()->getSingleScalarResult();
+
+		return $count1;
+	}
 }

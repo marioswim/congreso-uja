@@ -49,6 +49,7 @@ class AsistenteController extends Controller
 	     
 	      $this->insert($form->getData());
 	      return $this->redirect("/como-llegar");
+	    	dump($form->getData());
 	      
 
 	      
@@ -88,7 +89,7 @@ class AsistenteController extends Controller
 			$asistente 	-> 	setCena($data 		->	cena);
 			$asistente 	-> 	setDate();
 			$asistente 	->	setImage($dir."".$fileName);
-
+			$asistente 	->	setTaller($data 	->	taller);
 			$em 	= 	$this->getDoctrine()->getManager();
 
 			$em->persist($asistente);
@@ -117,6 +118,7 @@ class AsistenteController extends Controller
 			"direccion"		=> 	$asistente->getDireccion(),
 			"cod_postal"	=> 	$asistente->getCodPostal(),
 			"provincia"		=>	$asistente->getProvincia(),
+			"taller"		=>	$asistente->getTaller(),
 			"file"			=> 	$asistente->getImage(),
 			);
 
@@ -212,7 +214,7 @@ class AsistenteController extends Controller
 
             
             $file = fopen('php://output', 'r+');
-            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Pagado","Fecha Inscripción","\n");
+            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Pagado","Fecha Inscripción","Taller","\n");
 			$title_row=implode(";",$title_row);
 			fwrite($file, $title_row);
 
@@ -234,6 +236,7 @@ class AsistenteController extends Controller
 							$asis->getPublic(),
 							$asis->getCena(),
 							$asis->getPagado(),
+							$asis->getTaller(),
 							$date_string,"\n");
 
 						$aux=implode(";", $info);
@@ -274,14 +277,23 @@ class AsistenteController extends Controller
 			->add("file","file", array("label"=>"Foto Identificativa"))
 			
 
-
+			->add("taller","choice",array(
+				"label"=>false,
+				"choices"=>array
+					(	"taller 1"	=>	"Taller 1",
+						"taller 2"	=>	"Taller 2"),
+				"attr" 		=> array("class" => "talleres"),
+				"multiple"	=>false,
+				"expanded"	=>true,
+				"required"	=>true
+				))
 
 			->add("cena","checkbox",array("label"=>"Deseo Asistir a la cena del Jueves 9 de febrero.",
-				"required" => false,))
+				"required" => false,"attr"=> array("class"=>"opciones")))
 			->add("polity","checkbox",array("label"=>"He leido y acepto los condiciones",
-				"required" => True,))
+				"required" => True,"attr"=> array("class"=>"opciones")))
 			->add("public","checkbox",array("label"=>"Permito que mi asistencia se publique en el listado de asistentes",
-				"required" => false,))
+				"required" => false,"attr"=> array("class"=>"opciones")))
 
 
 			->add('save', 'submit', array(

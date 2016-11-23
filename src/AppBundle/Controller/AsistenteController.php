@@ -197,6 +197,8 @@ class AsistenteController extends Controller
 		$navbar     =   new NavBar();
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
+
+        $headlinks->addLink("css/admin/asistente_tabla.css","stylesheet","text/css");
         $headlinks_links    = $headlinks->getLinks();     
 		
 
@@ -228,7 +230,7 @@ class AsistenteController extends Controller
 
             
             $file = fopen('php://output', 'r+');
-            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Pagado","Fecha Inscripción","Taller","\n");
+            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Taller","Fecha Inscripción","Pagado","\n");
 			$title_row=implode(";",$title_row);
 			fwrite($file, $title_row);
 
@@ -247,11 +249,12 @@ class AsistenteController extends Controller
 							$asis->getCargo(),
 							$asis->getTelefono(),
 							$asis->getEmail(),
-							$asis->getPublic(),
-							$asis->getCena(),
-							$asis->getPagado(),
+							($asis->getPublic() == 1)? "Si":"No",
+							($asis->getCena() 	== 1)? "Si":"No",
 							$asis->getTaller(),
-							$date_string,"\n");
+							$date_string,
+							$asis->getPagado(),
+							"\n");
 
 						$aux=implode(";", $info);
 						fwrite($file, $aux);

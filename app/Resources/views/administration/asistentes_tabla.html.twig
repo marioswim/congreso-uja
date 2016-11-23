@@ -5,39 +5,40 @@
 <table class="table-striped">
 	<thead>
 		<tr>
-			<th class="text-center">
+			<th class="text-center dni">
 				DNI
 			</th>
 		
-			<th class="text-center">
+			<th class="text-center nombre">
 				Nombre
 			</th>
 
-			<th class="text-center">
+			<th class="text-center apellidos">
 				Apellidos
 			</th>
 
-			<th class="text-center">
+			<th class="text-center telefono">
 				Telefono
 			</th>
 
-			<th class="text-center">
+			<th class="text-center mail">
 				email
 			</th>
 
-			<th class="text-center">
+			<th class="text-center cena">
 				Asiste a Cena
 			</th>
 
-			<th class="text-center">
+			<th class="text-center perfil">
 				Perfil Público
 			</th>
 
-			<th class="text-center">
-				Pagado
-			</th>
-			<th class="text-center">
+			
+			<th class="text-center taller">
 				Taller
+			</th>
+			<th class="text-center pagado">
+				Pagado
 			</th>
 		</tr>
 
@@ -46,39 +47,49 @@
 		{% for asis in content %}
 
 		<tr>
-			<th class="text-center">
+			<th class="text-center dni">
 				{{asis.dni}}
 			</th>
 
-			<th>
+			<th class="nombre">
 				{{asis.nombre}}
 			</th>
 
-			<th>
+			<th class="apellidos">
 				{{asis.apellidos}}
 			</th>
 
-			<th class="text-center">
+			<th class="text-center telefono">
 				{{asis.telefono}}
 			</th>
 
-			<th>
+			<th class="mail">
 				{{asis.email}}
 			</th>
 
-			<th class="text-center">
-				{{asis.cena}}
+			<th class="text-center cena">
+				{% if asis.cena==true %}
+					<span>Si</span>
+				{% else %}
+					<span>No</span>
+				{% endif %}
 			</th>
 
-			<th class="text-center">
-				{{asis.public}}
+			<th class="text-center perfil">
+				
+				{% if asis.public==true %}
+					<span>Si</span>
+				{% else %}
+					<span>No</span>
+				{% endif %}
 			</th>
 
-			<th class="text-center">
-				{{asis.pagado}}
-			</th>
-			<th class="text-center">
+			
+			<th class="text-center taller">
 				{{asis.taller}}
+			</th>
+			<th class="text-center pagado">
+				{{asis.pagado}}
 			</th>
 		</tr>
 

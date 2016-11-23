@@ -28,13 +28,13 @@ class AsistenteController extends Controller
         $links      =   $navbar->getLinks();
         
         $headlinks->addLink("css/inscripcion.css","stylesheet","text/css");
-
+        $headlinks->addScript("js/inscripcion.js");
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
             "title_page"    =>  "Inscripción", 
             "head_link"     =>  $headlinks_links,
-	        "scripts"		=>	null,    
+	        "scripts"		=>	$headlinks->getScripts(),    
             "urls"          =>  $links,
         );
 		
@@ -51,7 +51,6 @@ class AsistenteController extends Controller
 	     
 	      $this->insert($form->getData());
 	      return $this->redirect("/como-llegar");
-	    	dump($form->getData());
 	      
 
 	      
@@ -100,9 +99,9 @@ class AsistenteController extends Controller
 			$em 	->	flush();
 
 			
-
+			$data 	-> 	setFile($dir."".$fileName);
 			$file 	->	move("/var/www/congreso/".$dir,$fileName);
-			$this	->	sendMail($asistente);
+			$this	->	sendMail($data);
 			
 
 
@@ -111,21 +110,34 @@ class AsistenteController extends Controller
 	{
 
 		$params=array(
-			"nombre"		=>	$asistente->getNombre(),
-			"apellidos" 	=>	$asistente->getApellidos(),
+			"Nombre"		=>	$asistente->getNombre(),
+			"Apellidos" 	=>	$asistente->getApellidos(),
+			"direccion"		=> 	$asistente->getDir(),
+			"cp"			=> 	$asistente->getCp(),
 			"mail" 			=>	$asistente->getEmail(),
 			"telefono"		=>	$asistente->getTelefono(),
-			"universidad" 	=> 	$asistente->getUniversidad(),
-			"cargo"			=>	$asistente->getCargo(),
-			"direccion"		=> 	$asistente->getDireccion(),
-			"cod_postal"	=> 	$asistente->getCodPostal(),
-			"provincia"		=>	$asistente->getProvincia(),
-			"taller"		=>	$asistente->getTaller(),
-			"file"			=> 	$asistente->getImage(),
+			"universidad" 	=> 	$asistente->universidad,
+			"cargo"			=>	$asistente->cargo,
+			"prov"			=>	$asistente->getProvincia(),
+			"taller"		=>	$asistente->taller,
+			"facturacion"	=> 	$asistente->factura
 			);
-
+		if($asistente->factura)
+		{
+			$params["fact"]=array(
+				"razon"		=> 	$asistente->razon_social,
+				"cif"		=>	$asistente->cif_nif,
+				"dir"		=>	$asistente->dir_social,
+				"cp"		=>	$asistente->cp_factura,
+				"localidad" =>	$asistente->pob_social,
+				"prov"		=>	$asistente->prov_social,
+				"pais" 		=>	$asistente->pais,
+				);
+		}
+		dump($asistente);
+		dump($params);
 		$message = \Swift_Message::newInstance()
-		->attach(\Swift_Attachment::fromPath($params["file"]))
+		->attach(\Swift_Attachment::fromPath($asistente->getFile()))
         ->setSubject('[Jornadas]: Inscripción '.$asistente->getDNI())
         ->setFrom('quesada@ujaen.es')
         ->setTo('quesada@ujaen.es')
@@ -279,6 +291,7 @@ class AsistenteController extends Controller
 			->add("file","file", array("label"=>"Foto Identificativa"))
 			
 
+
 			->add("taller","choice",array(
 				"label"=>false,
 				"choices"=>array
@@ -289,6 +302,15 @@ class AsistenteController extends Controller
 				"expanded"	=>true,
 				"required"	=>true
 				))
+			->add("factura","checkbox",array("required"=> false,"label"=>false,"attr" => array("id" => "pedir_factura")))
+			->add("razon_social","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Razón Social","class" => "facturacion")))
+			->add("cif_nif","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "CIF/NIF","class" => "facturacion","maxlength" => 9)))
+			->add("dir_social","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Dirección","class" => "facturacion")))
+			->add("pob_social","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Localidad","class" => "facturacion")))
+			->add("prov_social","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Provincia","class" => "facturacion")))
+			->add("pais","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "País","class" => "facturacion")))
+			->add("cp_factura","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Código Postal", "class" => "facturacion","maxlength" => 5)))
+
 
 			->add("cena","checkbox",array("label"=>"Deseo Asistir a la cena del Jueves 9 de febrero.",
 				"required" => false,"attr"=> array("class"=>"opciones")))

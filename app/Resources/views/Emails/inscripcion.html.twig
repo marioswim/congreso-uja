@@ -1,10 +1,19 @@
-
-D\Dña {{asis.nombre}} {{asis.apellidos}} se ha inscrito en las jornadas con la sigueinte información:
+D\Dña {{asis.Nombre}} {{asis.Apellidos}} se ha inscrito en las jornadas con la siguiente información:
 <ul>
-	<li>Dirección: {{asis.direccion}} {{asis.cod_postal}}, {{asis.provincia}}</li>
+	<li>Dirección: {{asis.direccion}} {{asis.cp}}, {{asis.prov}}</li>
 	<li>Teléfono: {{asis.telefono}}</li>
 	<li>Email: {{asis.mail}}</li>
 	<li>Universidad: {{asis.universidad}}</li>
 	<li>Cargo: {{asis.cargo}}</li>	
 	<li>Taller: {{asis.taller}}</li>
 </ul>
+{% if asis.facturacion %}
+	Los Datos de Facturación son los siguientes:
+	<ul>
+		
+		<li>Razón Social:{{asis.fact.razon}} {
+		<li>CIF/NIF:{{asis.fact.cif}}</li>
+		<li>Dirección Social:{{asis.fact.dir}} {{asis.fact.cp}} {{asis.fact.localidad}} {{asis.fact.prov}} {{asis.fact.pais}}</li>
+
+	</ul>
+{% endif %}

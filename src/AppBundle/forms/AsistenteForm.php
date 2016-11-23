@@ -29,6 +29,29 @@ class AsistenteForm
     private $cp;
 
     private $provincia;
+
+    public $universidad;
+
+    public $cargo; 
+    
+    public $cena;
+
+    public $taller;
+
+    public $razon_social;
+
+    public $cif_nif;
+
+    public $dir_social;
+
+    public $pob_social;
+
+    public $prov_social;
+
+    public $pais;
+
+    public $cp_factura;
+    public $factura;
     /**
      * Set DNI
      *

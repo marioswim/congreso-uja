@@ -9,11 +9,11 @@ class HeadLinks
 
 	public function __construct()
 	{
-		$this->scripts=array("js/jquery-1.10.0.min.js");
+		$this->scripts=array("js/jquery-1.10.0.min.js","js/bootstrap/bootstrap.min.js");
 		$this->links=array(
 			array(
 				"type"	=>	"image/x-icon",
-				"href"	=>	"favicon",
+				"href"	=>	"favicon.ico",
 				"rel"	=>	"icon",),
 			array(
 				"type"	=>	"text/css",

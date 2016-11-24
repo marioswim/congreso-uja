@@ -37,6 +37,11 @@ llegar_remove:
     path: /admin/como-llegar/{keyword}/delete
     defaults: { _controller: AppBundle:Llegar:delete }
 
+
+contact:
+ path: /contacto
+ defaults: { _controller: AppBundle:Contacto:index }
+
 login:
     path: /admin/login
     defaults: { _controller: AppBundle:Administrator:login }

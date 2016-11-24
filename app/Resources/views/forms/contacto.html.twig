@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block title %}   {{title_page}}  {% endblock %}
+{% block body %}
+<div id="contacto" class="container">
+
+	<h1 class="page-title">{{title_page}}</h1>
+
+	<form name="{{form.vars.full_name}}" method="{{form.vars.method}}" enctype="multipart/form-data">
+		{% for key,value in form.children %}
+				
+				{% if value.vars.block_prefixes.1 == "text" %}
+					<div class="{{value.vars.attr.class}}">
+						{% if value.vars.required == true %}
+
+							{% set required="required" %}
+
+						{% else %}
+
+							{% set required ="" %}
+
+						{% endif %}
+
+						{% if value.vars.block_prefixes.2 != "textarea" %}
+
+							<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" {{required}} maxlength="{{value.vars.max_length|default()}}" name="{{value.vars.full_name}}" placeholder="{{value.vars.attr.placeholder|default()}}" >
+
+							{% if value.vars.block_prefixes.1 == "checkbox" %}
+
+								<label> {{value.vars.label}}</label>
+
+							{% endif %}
+
+						{% else %}
+							<textarea placeholder="{{value.vars.attr.placeholder}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}"></textarea>
+						{% endif %}
+					</div>
+				{% elseif value.vars.block_prefixes.1 == "checkbox" %}
+
+					<div class="{{value.vars.attr.class}}">
+						<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}">
+
+						<label> {{value.vars.label}}</label>
+					</div>	
+
+				{% elseif value.vars.block_prefixes.1 == "submit" %}
+
+					<input type="{{value.vars.block_prefixes.1}}" class="{{value.vars.attr.class}}" name="{{value.vars.full_name}}" value="{{value.vars.label}}" id="{{value.vars.id}}">
+
+				{% elseif value.vars.block_prefixes.1 == "hidden" %}
+
+					<input type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}">
+
+				{% endif %}			
+
+		{% endfor %}
+
+	</form>
+
+</div>
+
+{% endblock %}

@@ -32,6 +32,10 @@ class NavBar{
 				"url" 	=>	"/como-llegar",
 				"title"	=>	"Como Llegar",
 				),
+			array(
+				"url" 	=>	"/contacto",
+				"title"	=>	"Contacto",
+				)
 		);
 	}
 

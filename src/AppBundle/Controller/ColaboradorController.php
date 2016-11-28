@@ -90,7 +90,7 @@ class ColaboradorController extends Controller
 
 	private function  insert($dataForm)
 	{
-		$dir 	=  '/var/www/congreso/web/files/images/';
+		$dir 	=  'files/images/patners/';
 		$file 	=  $dataForm->getFile();
 		$name 	=  $dataForm->getKey().".".$file->guessExtension();
 		
@@ -100,7 +100,7 @@ class ColaboradorController extends Controller
 		$colaborador -> setRol($dataForm->getRol());
 		$colaborador -> setId($dataForm->getKey());
 		$colaborador -> setDescription($dataForm->getDescription());
-		$colaborador -> setUri('files/images/'.$name);
+		$colaborador -> setUri($dir."".$name);
 		
 
 		$em = $this->getDoctrine()->getManager();
@@ -109,8 +109,8 @@ class ColaboradorController extends Controller
 		try
 		{
 			$em -> flush();			
-			$file 	-> move($dir,$name);
-			return $this->redirect("homepage");
+			$file 	-> move("/var/www/congreso/".$dir,$name);
+			return $this->redirect("/");
 
 		}
 		catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 Use AppBundle\utils\NavBar;
 use AppBundle\utils\HeadLinks;
-use AppBundle\Entity\Asistente;
+use AppBundle\Entity\Colaborador;
 
 class DefaultController extends Controller
 {
@@ -22,6 +22,10 @@ class DefaultController extends Controller
         $navbar     =   new NavBar();
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
+
+        $headlinks->addLink("css/bootstrap/css/bootstrap.min.css","stylesheet","text/css");
+
+        $headlinks->addLink("css/portada.css","stylesheet","text/css");
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
@@ -31,7 +35,9 @@ class DefaultController extends Controller
             "scripts"       =>  $headlinks->getScripts(),
             "urls"          =>  $links,
         );
+        $params["patners"]=$this->loadPatners();
         $params["map"]=$this->loadIndexMap();
+
         return $this->render('default/index.html.twig', $params);
     }
         private function loadIndexMap()
@@ -40,5 +46,19 @@ class DefaultController extends Controller
 
             return 'https://www.google.com/maps/d/embed?mid=1s9Gt2Cp-WvPhIHLDpdZihT8xMHk';
 
+        }
+
+        private function loadPatners()
+        {
+
+            $list = $this->getDoctrine()->getManager()->getRepository("AppBundle:Colaborador")->findAll();
+
+            $patners=array();
+
+            foreach ($list as $item) 
+            {
+                $patners[$item->getRol()][$item->getId()]=array("nombre" => $item->getNombre(), "uri" => $item->getUri());                
+            }
+            return $patners;
         }
 }

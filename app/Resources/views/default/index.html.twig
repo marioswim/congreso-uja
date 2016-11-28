@@ -9,7 +9,22 @@
 </div>
 <div class="container">
     
-    
+    <div id="patners">
+		
+		{% for rol, group in patners %}
+			<h1>{{rol}}</h1>
+
+			{% for id, patner in group %}
+				
+
+				<div id="{{id}}" class="col col-lg-3 vcenter">
+					<span></span>
+					<img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/>
+				</div>
+
+			{% endfor %}
+		{% endfor %}
+	</div>
 </div>
     
     <div>

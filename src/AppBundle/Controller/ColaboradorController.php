@@ -6,7 +6,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
+use Symfony\Component\Form\FormError;
 use AppBundle\Entity\Colaborador;
 use AppBundle\forms\ColaboradorForm;
 
@@ -25,16 +25,19 @@ class ColaboradorController extends Controller
 		$navbar     =   new NavBar();
         $headlinks  =   new HeadLinks();   
         $links      =   $navbar->getLinks();
+
+        $headlinks->addScript("ckeditor/ckeditor.js");
+        
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
-            "title_page"    =>  "Prueba", 
+            "title_page"    =>  "Inscripción", 
             "head_link"     =>  $headlinks_links,
             "content"       =>  "prueba",
+            "scripts"		=> 	$headlinks->getScripts(),
             "urls"          =>  $links,
         );
 		
-
 		$form 	= 	$this->createMyForm();
 		$form 	=	$form->getForm();
 
@@ -42,11 +45,18 @@ class ColaboradorController extends Controller
 
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
-	       	$this->insert($form->getData());
+	       	$aux	=	$this->insert($form->getData());
+
+	       	if(is_string($aux))
+
+	       		$this->errorForm($aux,$form);
+	       	
+	       	else
+	       		return $aux;
 	    }
 
 	    $params["form"]	=	$form->createView();
-	    return $this->render('forms/colaborador.html.twig', $params);
+	    return $this->render('forms/default.html.twig', $params);
 
 	}
 
@@ -68,9 +78,13 @@ class ColaboradorController extends Controller
 					"label" => "Rol en el congreso"
 					)
 				)
-			->add("description","textarea",array("label"=>"Descripción"))
+			->add("description","textarea",array("label"=>"Descripción","attr" => array("class"=>"ckeditor")))
 			->add("file","file", array("label"=>"Logo Colaborador"))
-			->add('save', 'submit', array('label' => 'Guardar'));
+			->add('save', 'submit', array(
+				'label' => 'Guardar',
+				"attr" => array("class" => "btn btn-primary")
+				)
+			);
 		return $form;
 	}
 
@@ -79,7 +93,6 @@ class ColaboradorController extends Controller
 		$dir 	=  '/var/www/congreso/web/files/images/';
 		$file 	=  $dataForm->getFile();
 		$name 	=  $dataForm->getKey().".".$file->guessExtension();
-		$file 	-> move($dir,$name);
 		
 		$colaborador = new Colaborador();
 
@@ -89,16 +102,37 @@ class ColaboradorController extends Controller
 		$colaborador -> setDescription($dataForm->getDescription());
 		$colaborador -> setUri('files/images/'.$name);
 		
-		
-
-
-		
 
 		$em = $this->getDoctrine()->getManager();
 		$em -> persist($colaborador);
-		$em -> flush();
 
+		try
+		{
+			$em -> flush();			
+			$file 	-> move($dir,$name);
+			return $this->redirect("homepage");
 
+		}
+		catch(\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)
+		{
+			switch ($e->getPrevious()->getErrorCode()) 
+			{
+				case 1062:
+					return "Keyword existente, utilice otra.";
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+
+		}
+	}
+
+	private function errorForm($text, &$form)
+	{
+		$error=new FormError($text,null,array("key"));
+		$form->addError($error);
 	}
 
 }

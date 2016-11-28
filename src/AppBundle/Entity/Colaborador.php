@@ -12,21 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
 */
 class Colaborador
 {
-	/**
-	* @ORM\Id
-	* @ORM\Column(type="string",length=60)
-	*/
-	private $key;
+    /**
+    * @ORM\Id
+    * @ORM\Column(type="string",length=60)
+    */
+    private $id;
 
-	/**
-	* @ORM\Column(type="string",length=255)
-	*/
-	private $nombre;
+    /**
+    * @ORM\Column(type="string",length=255)
+    */
+    private $nombre;
 
-	/**
-	* @ORM\Column(type="string",length=100)
-	*/
-	private $uri;
+    /**
+    * @ORM\Column(type="string")
+    */
+    private $uri;
 
     /**
     * @ORM\Column(type="text")
@@ -38,29 +38,6 @@ class Colaborador
     */
     private $rol;
 
-
-    /**
-     * Set key
-     *
-     * @param string $key
-     * @return Colaborador
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * Get key
-     *
-     * @return string 
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
 
     /**
      * Set nombre
@@ -152,5 +129,28 @@ class Colaborador
     public function getRol()
     {
         return $this->rol;
+    }
+
+    /**
+     * Set id
+     *
+     * @param string $id
+     * @return Colaborador
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return string 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

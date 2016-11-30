@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use Symfony\Component\Form\FormError;
 use AppBundle\Entity\Colaborador;
 use AppBundle\forms\ColaboradorForm;
@@ -27,13 +28,13 @@ class ColaboradorController extends Controller
         $links      =   $navbar->getLinks();
 
         $headlinks->addScript("ckeditor/ckeditor.js");
-        
+        $headlinks->addLink("css/colaboradorForm.css","stylesheet","text/css");
         $headlinks_links    = $headlinks->getLinks();
 
         $params=array(
             "title_page"    =>  "Inscripción", 
             "head_link"     =>  $headlinks_links,
-            "content"       =>  "prueba",
+            "content"       =>  null,
             "scripts"		=> 	$headlinks->getScripts(),
             "urls"          =>  $links,
         );
@@ -60,14 +61,109 @@ class ColaboradorController extends Controller
 
 	}
 
-
-	private function createMyForm()
+	public function editAction(Request $request,$keyword)
 	{
-		$colaborador = new ColaboradorForm();
+		$navbar     =   new NavBar();
+        $headlinks  =   new HeadLinks();   
+        $links      =   $navbar->getLinks();
+        
+        $headlinks->addScript("ckeditor/ckeditor.js");
+        $headlinks->addLink("css/colaboradorForm.css","stylesheet","text/css");
 
+        $headlinks_links    = $headlinks->getLinks();
+        $headScripts		= $headlinks->getScripts();
+        $params=array(
+            "title_page"    =>  "Editar Colaborador", 
+            "head_link"     =>  $headlinks_links,
+            "scripts"		=>	$headScripts,
+            "urls"          =>  $links,
+        );
+		$em = $this->getDoctrine()->getRepository("AppBundle:Colaborador");
+
+		$content=$em->findById($keyword);
+		$content=$content[0];
+
+
+		$form = $this->createMyForm($content);
+		$form = $form->add('delete', 'submit', array(
+				'label' => 'Eliminar',
+				"attr" => array("class" => "btn btn-danger")
+				));
+
+		$form=$form->getForm();
+
+		$form -> handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) 
+	    {	        
+	      
+	     
+	      	switch ($form->getClickedButton()->getName()) 
+			{
+	      	case 'delete':
+	      		return $this->redirect("/admin/colaborador/".$keyword."/delete");
+	      		break;
+	      	
+	      	case "save":
+	      		$this->update($form->getData(),$keyword);
+	      		return $this->redirect("/");
+	      		break;
+	      	};
+	      
+	      
+
+	      
+	    }
+		$params["form"]	 =	$form->createView();
+	    return $this->render('forms/default.html.twig', $params);
+
+
+	
+	}
+	public function deleteAction(Request $request,$keyword)
+	{
+		$navbar     =   new NavBar();
+        $headlinks  =   new HeadLinks();   
+        $links      =   $navbar->getLinks();
+        
+        $headlinks->addScript("ckeditor/ckeditor.js");
+
+
+
+        $headlinks_links    = $headlinks->getLinks();
+        $headScripts		= $headlinks->getScripts();
+        $params=array(
+            "title_page"    =>  "Borrar", 
+            "head_link"     =>  $headlinks_links,
+            "scripts"		=>	$headScripts,
+            "urls"          =>  $links,
+        );
+
+		$em = $this->getDoctrine()->getManager();
+
+		$prod=$em->getRepository("AppBundle:Colaborador")->find($keyword);
+		$prod->deleteFile();
+		$em->remove($prod);
+		$em->flush();	
+		
+				
+	    return $this->redirect("/");
+	}
+	private function createMyForm($colaborador=null)
+	{
+		if(is_null($colaborador))
+		{
+			$colaborador = new Colaborador();
+			$flag=true;
+		}
+		else
+		{
+			$flag=false;
+		}	
+		
 		$form = $this->createFormBuilder($colaborador)
 			->add("nombre","text",array("label"=>"Nombre"))
-			->add("key","text",array("label"=>"KeyWord para URL"))
+			->add("id","text",array("label"=>"KeyWord para URL"))
 			->add("rol","choice",
 				array("choices"=> 
 					array(
@@ -79,7 +175,10 @@ class ColaboradorController extends Controller
 					)
 				)
 			->add("description","textarea",array("label"=>"Descripción","attr" => array("class"=>"ckeditor")))
-			->add("file","file", array("label"=>"Logo Colaborador"))
+			->add("file","file", array(
+				"required" => $flag,
+				"label"			=>	"Logo Colaborador",
+				"data_class" => null)) //To Do mejorar gestion imagen
 			->add('save', 'submit', array(
 				'label' => 'Guardar',
 				"attr" => array("class" => "btn btn-primary")
@@ -88,19 +187,10 @@ class ColaboradorController extends Controller
 		return $form;
 	}
 
-	private function  insert($dataForm)
+	private function  insert($colaborador)
 	{
-		$dir 	=  'files/images/patners/';
-		$file 	=  $dataForm->getFile();
-		$name 	=  $dataForm->getKey().".".$file->guessExtension();
-		
-		$colaborador = new Colaborador();
-
-		$colaborador -> setNombre($dataForm->getNombre());
-		$colaborador -> setRol($dataForm->getRol());
-		$colaborador -> setId($dataForm->getKey());
-		$colaborador -> setDescription($dataForm->getDescription());
-		$colaborador -> setUri($dir."".$name);
+		$colaborador->setPath();
+		$colaborador->setDate();
 		
 
 		$em = $this->getDoctrine()->getManager();
@@ -109,7 +199,8 @@ class ColaboradorController extends Controller
 		try
 		{
 			$em -> flush();			
-			$file 	-> move("/var/www/congreso/".$dir,$name);
+			
+			$colaborador->upload();
 			return $this->redirect("/");
 
 		}
@@ -128,7 +219,20 @@ class ColaboradorController extends Controller
 
 		}
 	}
+	private function update($data,$keyword)
+	{
 
+		$em=$this->getDoctrine()->getManager();
+		$colaborador=$em->getRepository("AppBundle:Colaborador")->find($keyword);
+
+		$colaborador->setNombre($data->getNombre());
+		$colaborador->setRol($data->getRol());
+		$colaborador->setId($data->getId());
+		$colaborador->setDescription($data->getDescription());
+		
+		$em->flush();
+
+	}
 	private function errorForm($text, &$form)
 	{
 		$error=new FormError($text,null,array("key"));

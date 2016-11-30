@@ -12,17 +12,27 @@
     <div id="patners">
 		
 		{% for rol, group in patners %}
-			<h1>{{rol}}</h1>
+			{% if rol == "Organizador" %}
+				{% set title="Organizadores" %}
+			{% elseif rol=="Colaborador" %}
+				{% set title="Colaboradores" %}
+			{% endif %}
+			<h1>{{title}}</h1>
+			<div class="row" id="{{rol}}">
+				{% for id, patner in group %}
+					
+					{% if rol == "Organizador" %}
+						{% set col="col-lg-6" %}
+					{% else %}
+						{% set col="col-lg-3" %}
+					{% endif %}
+					<div id="{{id}}" class="col {{col}} vcenter">
+						<span></span>
+						<img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/>
+					</div>
 
-			{% for id, patner in group %}
-				
-
-				<div id="{{id}}" class="col col-lg-3 vcenter">
-					<span></span>
-					<img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/>
-				</div>
-
-			{% endfor %}
+				{% endfor %}
+			</div>
 		{% endfor %}
 	</div>
 </div>

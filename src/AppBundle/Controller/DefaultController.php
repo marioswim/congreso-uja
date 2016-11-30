@@ -51,13 +51,13 @@ class DefaultController extends Controller
         private function loadPatners()
         {
 
-            $list = $this->getDoctrine()->getManager()->getRepository("AppBundle:Colaborador")->findAll();
+            $list = $this->getDoctrine()->getManager()->getRepository("AppBundle:Colaborador")->findBy(array(),array("rol"=>"desc","date"=>"asc"));
 
             $patners=array();
 
             foreach ($list as $item) 
             {
-                $patners[$item->getRol()][$item->getId()]=array("nombre" => $item->getNombre(), "uri" => $item->getUri());                
+                $patners[$item->getRol()][$item->getId()]=array("nombre" => $item->getNombre(), "uri" => $item->getPath());                
             }
             return $patners;
         }

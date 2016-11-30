@@ -21,8 +21,14 @@ asistente_download:
 
 
 colaborador_add:
-    path: /colaborador/add
+    path: /admin/colaborador/add
     defaults: { _controller: AppBundle:Colaborador:add }
+colaborador_edit:
+    path: /admin/colaborador/{keyword}/edit
+    defaults: { _controller: AppBundle:Colaborador:edit }
+colaborador_remove:
+    path: /admin/colaborador/{keyword}/delete
+    defaults: { _controller: AppBundle:Colaborador:delete }
 
 llegar:
     path: /como-llegar

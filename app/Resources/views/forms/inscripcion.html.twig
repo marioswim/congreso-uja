@@ -23,6 +23,7 @@
 
 		{%  if value.vars.block_prefixes.1=="file" %}
 		<div>
+			<label>{{value.vars.label}}</label>
 			<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}"  required="{{value.vars.required}}"/>
 		</div>
 		{% endif %}
@@ -110,7 +111,7 @@
 				{%endif%}
 			<div class="{{value.vars.attr.class}}">
 				<input id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}" {{ required }} {{checked}}/>
-				<label>{{value.vars.label}}</label>
+				<label>{{value.vars.label|raw}}</label>
 			</div>
 		{% endif%}
 

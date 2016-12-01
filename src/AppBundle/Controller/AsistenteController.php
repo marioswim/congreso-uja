@@ -317,7 +317,7 @@ class AsistenteController extends Controller
 
 			->add("cena","checkbox",array("label"=>"Deseo Asistir a la cena del Jueves 9 de febrero.",
 				"required" => false,"attr"=> array("class"=>"opciones")))
-			->add("polity","checkbox",array("label"=>"He leido y acepto los condiciones",
+			->add("polity","checkbox",array("label"=>'He leido y acepto las <a href="/politica-de-privacidad">condiciones</a>',
 				"required" => True,"attr"=> array("class"=>"opciones")))
 			->add("public","checkbox",array("label"=>"Permito que mi asistencia se publique en el listado de asistentes",
 				"required" => false,"attr"=> array("class"=>"opciones")))

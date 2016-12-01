@@ -2,9 +2,7 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
-prueba:
-    path: /prueba
-    defaults: { _controller: AppBundle:Prueba:index }
+
 
 inscripcion:
     path: /inscripcion
@@ -43,6 +41,9 @@ llegar_remove:
     path: /admin/como-llegar/{keyword}/delete
     defaults: { _controller: AppBundle:Llegar:delete }
 
+lpod:
+    path: /politica-de-privacidad
+    defaults: { _controller: AppBundle:Ley:index }
 
 contact:
  path: /contacto

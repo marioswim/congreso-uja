@@ -144,6 +144,12 @@ class ContactoController extends Controller
 					"attr" 		=> array(
 						"class" 		=> "copia",
 						"placeholder" 	=> "")))
+			->add("terminos","checkbox",array(
+					"required" 	=> true,
+					"label"		=> 'He leido y acepto las <a href="/politica-de-privacidad">condiciones</a>',
+					"attr" 		=> array(
+						"class" 		=> "copia",
+						"placeholder" 	=> "")))
 
 			->add("save","submit",array(
 					'label' => 'Guardar',

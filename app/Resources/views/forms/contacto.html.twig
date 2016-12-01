@@ -39,7 +39,7 @@
 					<div class="{{value.vars.attr.class}}">
 						<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}">
 
-						<label> {{value.vars.label}}</label>
+						<label> {{value.vars.label|raw}}</label>
 					</div>	
 
 				{% elseif value.vars.block_prefixes.1 == "submit" %}

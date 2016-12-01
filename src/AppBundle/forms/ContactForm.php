@@ -13,6 +13,7 @@ class ContactForm
 	public $asunto;
 	public $mensaje;
 	public $copia;
+	public $terminos;
 
 
 }

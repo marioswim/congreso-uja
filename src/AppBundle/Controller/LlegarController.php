@@ -6,11 +6,11 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+
 use AppBundle\Entity\MetodoLlegada;
 use Assetic\Exception\Exception; 
 
+use AppBundle\utils\Utils;
 
 
 class LlegarController extends Controller
@@ -19,22 +19,14 @@ class LlegarController extends Controller
 
 	public function indexAction()
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+		$utils      =   new Utils();
+
+        $css        =   array("css/llegar.css");
         
-        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
+        $params     =   $utils->prepareHeaderAndNavbar("Como llegar",$css);
+        
 
-
-        $params=array(
-            "title_page"    =>  "Como Llegar", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
-		$em			=	$this->getDoctrine()->getRepository("AppBundle:MetodoLlegada");
+		$em			=	$this->getDoctrine()->getRepository("AppBundle:MetodoLlegada");		
 		$content	=	$em->findAll();
 
 		$params["content"]=$content;
@@ -57,24 +49,13 @@ class LlegarController extends Controller
 
 	public function addAction(Request $request)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+		$utils      =   new Utils();
+
+        $css        =   array("css/llegar.css");
+        $js			=	array("ckeditor/ckeditor.js");
+        $params     =   $utils->prepareHeaderAndNavbar("Añadir Medio transporte",$css,$js);
         
-        $headlinks->addScript("ckeditor/ckeditor.js");
-        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
 
-
-
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
-        $params=array(
-            "title_page"    =>  "Añadir Medio transporte", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
-		
 		$form 	= 	$this->comoLlegarForm();
 		$form 	=	$form->getForm();
 
@@ -98,27 +79,19 @@ class LlegarController extends Controller
 
 	public function editAction(Request $request,$keyword)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-        
-        $headlinks->addScript("ckeditor/ckeditor.js");
-        $headlinks->addLink("css/llegar.css","stylesheet","text/css");
+		$utils      =   new Utils();
+
+        $css        =   array("css/llegar.css");
+        $js			=	array("ckeditor/ckeditor.js");
 
 
-
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
-        $params=array(
-            "title_page"    =>  "Editar", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
 		$em = $this->getDoctrine()->getRepository("AppBundle:MetodoLlegada");
 
 		$content=$em->findById($keyword);
 		$content=$content[0];
+
+        $params     =   $utils->prepareHeaderAndNavbar("Editar ".$content->getNombre(),$css,$js);
+
 
 		$form = $this->comoLlegarForm($content);
 		$form = $form->add('delete', 'submit', array(
@@ -157,22 +130,7 @@ class LlegarController extends Controller
 	}
 	public function deleteAction(Request $request,$keyword)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-        
-        $headlinks->addScript("ckeditor/ckeditor.js");
 
-
-
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
-        $params=array(
-            "title_page"    =>  "Borrar", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
 		$em = $this->getDoctrine()->getManager();
 
 		$prod=$em->getRepository("AppBundle:MetodoLlegada")->find($keyword);

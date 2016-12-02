@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+
+use AppBundle\utils\Utils;
 
 
 use Assetic\Exception\Exception; 
@@ -21,20 +21,12 @@ class ContactoController extends Controller
 
 	public function indexAction(Request $request)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-        
-        $headlinks->addLink("css/contacto.css","stylesheet","text/css");
-        
-        $headlinks_links    = $headlinks->getLinks();
+	
+    	$utils 		=	new Utils();
+    	$css 		=	array("css/contacto.ss");
+    	$params 	=	$utils->prepareHeaderAndNavbar("Contacto",$css);       
 
-        $params=array(
-            "title_page"    =>  "Contacto", 
-            "head_link"     =>  $headlinks_links,
-	        "scripts"		=>	null,    
-            "urls"          =>  $links,
-        );
+
 		
 		$form 	= 	$this->contactForm();
 		$form 	=	$form->getForm();

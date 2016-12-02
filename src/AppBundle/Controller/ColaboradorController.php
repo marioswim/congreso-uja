@@ -9,10 +9,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Symfony\Component\Form\FormError;
 use AppBundle\Entity\Colaborador;
-use AppBundle\forms\ColaboradorForm;
 
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+use AppBundle\utils\Utils;
+
 
 class ColaboradorController extends Controller
 {
@@ -23,22 +22,14 @@ class ColaboradorController extends Controller
 
 	public function addAction(Request $request)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+		$utils 	= 	new Utils();
 
-        $headlinks->addScript("ckeditor/ckeditor.js");
-        $headlinks->addLink("css/colaboradorForm.css","stylesheet","text/css");
-        $headlinks_links    = $headlinks->getLinks();
+        $js 	= 	array("ckeditor/ckeditor.js");
+        $css 	= 	array("css/colaboradorForm.css");
+        
+        $params =	$utils->prepareHeaderAndNavbar("Añadir Colaborador",$css,$js);
 
-        $params=array(
-            "title_page"    =>  "Inscripción", 
-            "head_link"     =>  $headlinks_links,
-            "content"       =>  null,
-            "scripts"		=> 	$headlinks->getScripts(),
-            "urls"          =>  $links,
-        );
-		
+
 		$form 	= 	$this->createMyForm();
 		$form 	=	$form->getForm();
 
@@ -63,25 +54,20 @@ class ColaboradorController extends Controller
 
 	public function editAction(Request $request,$keyword)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+
         
-        $headlinks->addScript("ckeditor/ckeditor.js");
-        $headlinks->addLink("css/colaboradorForm.css","stylesheet","text/css");
+        $utils 	= 	new Utils();
 
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
-        $params=array(
-            "title_page"    =>  "Editar Colaborador", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
-		$em = $this->getDoctrine()->getRepository("AppBundle:Colaborador");
+        $js 	= 	array("ckeditor/ckeditor.js");
+        $css 	= 	array("css/colaboradorForm.css");        
+       
+		$em  	= 	$this->getDoctrine()->getRepository("AppBundle:Colaborador");
 
-		$content=$em->findById($keyword);
-		$content=$content[0];
+		$content 	=	$em->findById($keyword);
+		$content 	=	$content[0];
+
+        $params 	=	$utils->prepareHeaderAndNavbar("Editar ".$content->getRol()." ".$content->getNombre(),$css,$js);
+
 
 
 		$form = $this->createMyForm($content);
@@ -122,23 +108,7 @@ class ColaboradorController extends Controller
 	}
 	public function deleteAction(Request $request,$keyword)
 	{
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-        
-        $headlinks->addScript("ckeditor/ckeditor.js");
-
-
-
-        $headlinks_links    = $headlinks->getLinks();
-        $headScripts		= $headlinks->getScripts();
-        $params=array(
-            "title_page"    =>  "Borrar", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headScripts,
-            "urls"          =>  $links,
-        );
-
+		    
 		$em = $this->getDoctrine()->getManager();
 
 		$prod=$em->getRepository("AppBundle:Colaborador")->find($keyword);

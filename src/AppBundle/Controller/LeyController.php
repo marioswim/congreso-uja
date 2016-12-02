@@ -6,8 +6,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+
+use AppBundle\utils\Utils;
 
 
 class LeyController extends Controller
@@ -16,23 +16,12 @@ class LeyController extends Controller
 
     public function indexAction(Request $request)
     {
-        $navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+        $utils      =   new Utils();
 
-        $headlinks->addLink("css/bootstrap/css/bootstrap.min.css","stylesheet","text/css");
-        $headlinks->addLink("css/portada.css","stylesheet","text/css");
-
-        $headlinks_links    = $headlinks->getLinks();
-
-        $params=array(
-            "title_page"    =>  "Politica de privacidad", 
-            "head_link"     =>  $headlinks_links,
-            "content"       =>  "hola",
-            "scripts"       =>  $headlinks->getScripts(),
-            "urls"          =>  $links,
-        );
-        dump($params);
+        $css        =   array("css/bootstrap/css/bootstrap.min.css","css/base.css");
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Politica de privacidad",$css);
+       
         return $this->render('default/politica.html.twig', $params);
 
     }

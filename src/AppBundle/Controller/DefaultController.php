@@ -6,9 +6,11 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+
 use AppBundle\Entity\Colaborador;
+
+use AppBundle\utils\Utils;
+
 
 class DefaultController extends Controller
 {
@@ -17,26 +19,14 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $utils      =   new Utils();
 
-
-        $navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-
-        $headlinks->addLink("css/bootstrap/css/bootstrap.min.css","stylesheet","text/css");
-
-        $headlinks->addLink("css/portada.css","stylesheet","text/css");
-        $headlinks_links    = $headlinks->getLinks();
-
-        $params=array(
-            "title_page"    =>  "inicio", 
-            "head_link"     =>  $headlinks_links,
-            "content"       =>  "hola",
-            "scripts"       =>  $headlinks->getScripts(),
-            "urls"          =>  $links,
-        );
-        $params["patners"]=$this->loadPatners();
-        $params["map"]=$this->loadIndexMap();
+        $css        =   array("css/bootstrap/css/bootstrap.min.css","css/portada.css");
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Inicio",$css);
+        
+        $params["patners"]  =   $this->loadPatners();
+        $params["map"]      =   $this->loadIndexMap();
 
         return $this->render('default/index.html.twig', $params);
     }

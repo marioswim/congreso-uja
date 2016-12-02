@@ -211,10 +211,8 @@ class Colaborador
     
     public function upload()
     {
-        dump($this);
         $this->getFile()->move("/var/www/congreso/files/images/patners/",$this->id.".".$this->file->getClientOriginalExtension());
         $this->setFile(file_get_contents($this->path));
-        dump($this);
 
     }
 

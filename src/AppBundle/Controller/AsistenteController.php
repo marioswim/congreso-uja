@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 Use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-Use AppBundle\utils\NavBar;
-use AppBundle\utils\HeadLinks;
+
 use AppBundle\Entity\Asistente;
 use Assetic\Exception\Exception; 
 
 Use AppBundle\forms\AsistenteForm;
+
+use AppBundle\utils\Utils;
 
 class AsistenteController extends Controller
 {
@@ -23,28 +24,22 @@ class AsistenteController extends Controller
 	public function singUpAction(Request $request)
 	{
 
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-        
-        $headlinks->addLink("css/inscripcion.css","stylesheet","text/css");
-        $headlinks->addScript("js/inscripcion.js");
-        $headlinks_links    = $headlinks->getLinks();
+		$utils 	= 	new Utils();
 
-        $params=array(
-            "title_page"    =>  "Inscripción", 
-            "head_link"     =>  $headlinks_links,
-	        "scripts"		=>	$headlinks->getScripts(),    
-            "urls"          =>  $links,
-        );
-		
+		$css 	=	array("css/inscripcion.css");
+		$js 	=	array("js/inscripcion.js");
+
+		$params =	$utils->prepareHeaderAndNavbar("Inscripción",$css,$js);
+
 		$form 	= 	$this->singUpForm();
 		$form 	=	$form->getForm();
 
 		$form 		-> 	handleRequest($request);
-		$taller1	=	$this->countAsistentes("taller 1");
-		$taller2	=	$this->countAsistentes("taller 2");
+
+		$taller1			=	$this->countAsistentes("taller 1");
+		$taller2			=	$this->countAsistentes("taller 2");
 		$params["count"]	=	array($taller1,$taller2);
+
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
 	      
@@ -106,76 +101,66 @@ class AsistenteController extends Controller
 
 
 		}
-	private function sendMail($asistente)
-	{
-
-		$params=array(
-			"Nombre"		=>	$asistente->getNombre(),
-			"Apellidos" 	=>	$asistente->getApellidos(),
-			"direccion"		=> 	$asistente->getDir(),
-			"cp"			=> 	$asistente->getCp(),
-			"mail" 			=>	$asistente->getEmail(),
-			"telefono"		=>	$asistente->getTelefono(),
-			"universidad" 	=> 	$asistente->universidad,
-			"cargo"			=>	$asistente->cargo,
-			"prov"			=>	$asistente->getProvincia(),
-			"taller"		=>	$asistente->taller,
-			"facturacion"	=> 	$asistente->factura
-			);
-		if($asistente->factura)
+		private function sendMail($asistente)
 		{
-			$params["fact"]=array(
-				"razon"		=> 	$asistente->razon_social,
-				"cif"		=>	$asistente->cif_nif,
-				"dir"		=>	$asistente->dir_social,
-				"cp"		=>	$asistente->cp_factura,
-				"localidad" =>	$asistente->pob_social,
-				"prov"		=>	$asistente->prov_social,
-				"pais" 		=>	$asistente->pais,
+
+			$params=array(
+				"Nombre"		=>	$asistente->getNombre(),
+				"Apellidos" 	=>	$asistente->getApellidos(),
+				"direccion"		=> 	$asistente->getDir(),
+				"cp"			=> 	$asistente->getCp(),
+				"mail" 			=>	$asistente->getEmail(),
+				"telefono"		=>	$asistente->getTelefono(),
+				"universidad" 	=> 	$asistente->universidad,
+				"cargo"			=>	$asistente->cargo,
+				"prov"			=>	$asistente->getProvincia(),
+				"taller"		=>	$asistente->taller,
+				"facturacion"	=> 	$asistente->factura
 				);
+			if($asistente->factura)
+			{
+				$params["fact"]=array(
+					"razon"		=> 	$asistente->razon_social,
+					"cif"		=>	$asistente->cif_nif,
+					"dir"		=>	$asistente->dir_social,
+					"cp"		=>	$asistente->cp_factura,
+					"localidad" =>	$asistente->pob_social,
+					"prov"		=>	$asistente->prov_social,
+					"pais" 		=>	$asistente->pais,
+					);
+			}
+			$message = \Swift_Message::newInstance()
+			->attach(\Swift_Attachment::fromPath($asistente->getFile()))
+	        ->setSubject('[Jornadas]: Inscripción '.$asistente->getDNI())
+	        ->setFrom('quesada@ujaen.es')
+	        ->setTo('quesada@ujaen.es')
+	        ->setBody(        	    	
+	            $this->renderView(
+	                // app/Resources/views/Emails/registration.html.twig
+	                'Emails/inscripcion.html.twig',
+	                array('asis' => $params)
+	            ),
+	            'text/html'
+	        );
+
+		    return $this->get('mailer')->send($message);
+
 		}
-		dump($asistente);
-		dump($params);
-		$message = \Swift_Message::newInstance()
-		->attach(\Swift_Attachment::fromPath($asistente->getFile()))
-        ->setSubject('[Jornadas]: Inscripción '.$asistente->getDNI())
-        ->setFrom('quesada@ujaen.es')
-        ->setTo('quesada@ujaen.es')
-        ->setBody(        	    	
-            $this->renderView(
-                // app/Resources/views/Emails/registration.html.twig
-                'Emails/inscripcion.html.twig',
-                array('asis' => $params)
-            ),
-            'text/html'
-        );
-
-	    return $this->get('mailer')->send($message);
-
-	}
 
 	public function showPublicAction()
 	{
 		
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
+		$utils 	= 	new Utils();
 
-        $headlinks->addScript("js/asistentes.js");
-        $headlinks->addLink("css/asistentes.css","stylesheet","text/css");
+        $js		=	array("js/asistentes.js");
+        $css 	=	array("css/asistentes.css");
 
-        $headlinks_links    = $headlinks->getLinks();
+		$params = 	$utils->prepareHeaderAndNavbar("Asistentes",$css,$js);
         
 		$em 	= 	$this->getDoctrine()->getRepository("AppBundle:Asistente");
 		$public =	$em->findByPublic(1);
-
-		$params=array(
-            "title_page"    =>  "Asistentes", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headlinks->getScripts(),
-            "publics"		=>	$public,
-            "urls"          =>  $links,
-        );
+		$params["publics"]= $public;
+		
 
 		$securityContext = $this->container->get('security.authorization_checker');		
 
@@ -194,20 +179,14 @@ class AsistenteController extends Controller
 	{
 
 
-		$navbar     =   new NavBar();
-        $headlinks  =   new HeadLinks();   
-        $links      =   $navbar->getLinks();
-
-        $headlinks->addLink("css/admin/asistente_tabla.css","stylesheet","text/css");
-        $headlinks_links    = $headlinks->getLinks();     
 		
+		$utils 	= 	new Utils();
 
-		$params=array(
-            "title_page"    =>  "Asistentes", 
-            "head_link"     =>  $headlinks_links,
-            "scripts"		=>	$headlinks->getScripts(),            
-            "urls"          =>  $links,
-        );
+        $css 	=	array("css/admin/asistente_tabla.css");
+         
+		
+        $params	=	$utils->prepareHeaderAndNavbar("Asistentes",$css);
+		
 
 		$all = $this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente")->findBy(array(),array("date" => "asc"));
 
@@ -215,67 +194,62 @@ class AsistenteController extends Controller
 
 
 		return $this->render('administration/asistentes_tabla.html.twig', $params);
-		dump($all);
-
 	}
-	public function downloadAction()
-	{
 
-		
-
-        $container = $this->container;
-        $response = new StreamedResponse(function() use($container) 
-        {
-			$all = $this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente")->findBy(array(),array("date" => "asc"));
-
-            
-            $file = fopen('php://output', 'r+');
-            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Taller","Fecha Inscripción","Pagado","\n");
-			$title_row=implode(";",$title_row);
-			fwrite($file, $title_row);
-
-					foreach ($all as $asis) 
-					{
-						$date=$asis->getDate();
-						$date_string=$date->format("d-m-Y H:i:s");
-						$info=array(
-							$asis->getDNI(),
-							$asis->getNombre(),
-							$asis->getApellidos(),
-							$asis->getDireccion(),
-							$asis->getCodPostal(),
-							$asis->getProvincia(),
-							$asis->getUniversidad(),
-							$asis->getCargo(),
-							$asis->getTelefono(),
-							$asis->getEmail(),
-							($asis->getPublic() == 1)? "Si":"No",
-							($asis->getCena() 	== 1)? "Si":"No",
-							$asis->getTaller(),
-							$date_string,
-							$asis->getPagado(),
-							"\n");
-
-						$aux=implode(";", $info);
-						fwrite($file, $aux);
-					}
+		private function downloadAction()
+		{
 
 			
 
-            fclose($file);
-        });
+	        $container = $this->container;
+	        $response = new StreamedResponse(function() use($container) 
+	        {
+				$all = $this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente")->findBy(array(),array("date" => "asc"));
 
-        $response->headers->set('Content-Type', 'application/force-download');
-        $response->headers->set('Content-Disposition','attachment; filename="export.csv"');
+	            
+	            $file = fopen('php://output', 'r+');
+	            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Taller","Fecha Inscripción","Pagado","\n");
+				$title_row=implode(";",$title_row);
+				fwrite($file, $title_row);
 
-        return $response;
+						foreach ($all as $asis) 
+						{
+							$date=$asis->getDate();
+							$date_string=$date->format("d-m-Y H:i:s");
+							$info=array(
+								$asis->getDNI(),
+								$asis->getNombre(),
+								$asis->getApellidos(),
+								$asis->getDireccion(),
+								$asis->getCodPostal(),
+								$asis->getProvincia(),
+								$asis->getUniversidad(),
+								$asis->getCargo(),
+								$asis->getTelefono(),
+								$asis->getEmail(),
+								($asis->getPublic() == 1)? "Si":"No",
+								($asis->getCena() 	== 1)? "Si":"No",
+								$asis->getTaller(),
+								$date_string,
+								$asis->getPagado(),
+								"\n");
 
+							$aux=implode(";", $info);
+							fwrite($file, $aux);
+						}
 
-		
+				
 
+	            fclose($file);
+	        });
 
+	        $response->headers->set('Content-Type', 'application/force-download');
+	        $response->headers->set('Content-Disposition','attachment; filename="export.csv"');
 
-	}
+	        return $response;
+
+		}
+
 	private function singUpForm()
 	{
 		$asis = new AsistenteForm();
@@ -345,4 +319,6 @@ class AsistenteController extends Controller
 
 		return $count1;
 	}
+
+
 }

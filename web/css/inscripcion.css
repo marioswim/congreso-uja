@@ -1,0 +1,145 @@
+/*#inscripcion form div
+{
+	padding: 10px;
+}
+#inscripcion form div,
+#inscripcion form div label
+{
+	display: block;
+}
+
+#inscripcion form div input[type="text"]
+{
+	display: inline;
+	width: 100%;
+}
+#inscripcion form div
+{
+	display: block;
+	margin-bottom: 10px;
+}
+
+#inscripcion .datos
+{
+	float: left;
+	margin:10px;
+	width: 30%;
+	display: inline-block;
+}
+#inscripcion .procedencia,
+#inscripcion .contact
+{
+	float: left;
+	margin:10px;
+	width: 46%;
+	display: inline-block;
+}
+#inscripcion .location
+{
+	float: left;
+	margin:10px;	
+	display: inline-block;
+}
+#inscripcion  #form_dir
+{
+	width: 45%;
+}
+#inscripcion  #form_cp
+{
+	width: 10%;
+}
+#inscripcion #form_provincia
+{
+	width: 35%;
+}
+
+#inscripcion label[for="form_file"]
+{
+	display: inline-block;
+}
+
+#inscripcion form div label,
+#inscripcion form div input[type="checkbox"]
+{
+	display: inline;
+}
+#inscripcion form div input[type="checkbox"]
+{
+	float: left;
+}*/
+
+.datos,
+.procedencia,
+.contact,
+.location,
+.facturacion
+{
+	display: block;
+	float: left;
+	padding: 0px 5px;
+	margin-bottom: 10px;
+
+}
+.datos input,
+.procedencia input,
+.contact input,
+.location input,
+.facturacion input
+{
+	width: 100%;
+	padding: 5px;
+}
+.datos
+{
+	width: 33.33%;
+}
+.procedencia,
+.contact
+{
+	width: 50%;	
+}
+#direcion
+{
+	width:50%;
+}
+#cp
+{
+	width: 20%;
+}
+#provincia
+{
+	width: 30%;
+}
+.facturacion
+{
+	display: none;
+}
+
+
+#form_razon_social
+{
+	width:90%;
+
+}
+#form_cif_nif
+{
+	width: 10%;
+}
+#form_dir_social
+{
+	width: 60%;
+}
+#form_pob_social,#form_prov_social,#form_pais
+{
+	width: 10%;
+}
+
+#form_cp_factura
+{
+	width: 10%;
+}
+
+#form_save
+{
+	float: right;
+}

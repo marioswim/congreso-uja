@@ -1,0 +1,58 @@
+body  nav
+{
+	background-color:	#006d38!important;
+	margin-bottom: 0px!important;
+	border-color: transparent!important;
+	border-radius: 0px!important;
+}
+
+
+.navbar-nav .leaf
+{
+	color: white !important;
+	font-weight: bolder;
+
+}
+body > div:first-child .container a:hover
+{
+	background-color: #034c28;
+
+}
+
+#portada img 
+{
+	width: 100%;
+}
+.navbar-toggle:focus,
+.navbar-toggle:hover
+{
+	background-color: transparent !important;
+}
+.navbar-toggle
+{
+	border:transparent!important;
+}
+.icon-bar
+{
+	background-color: #fff !important;
+}
+footer
+{
+	background-color:	#006d38!important;
+	text-align: center;
+	width: 100%;
+	bottom: 0px;
+	position: absolute;
+	padding: 10px 0px;
+
+}
+footer a
+{
+	color:white;
+}
+footer a:hover
+{
+	color: white;
+	font-weight: bolder;
+	text-decoration: none;
+}

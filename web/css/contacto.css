@@ -1,0 +1,41 @@
+
+.persona,
+.contacto
+{
+	display: block;
+	width: 50%;
+	float: left;
+	padding: 0px 5px;
+	margin-bottom: 10px;
+
+}
+
+.persona input,
+.contacto input
+{
+	width: 100%;
+	padding: 5px;
+}
+
+.correo
+{
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 0px 5px;
+}
+.correo input,
+.correo textarea
+{
+	width: 100%;
+	padding: 0px 5px;
+}
+.correo textarea
+{
+	padding: 5px 5px;
+	min-height: 400px;
+}
+.btn
+{
+	float: right;
+}

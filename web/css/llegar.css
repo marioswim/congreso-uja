@@ -1,0 +1,58 @@
+body > div:first-child
+{
+	margin-bottom: 20px;
+}
+
+#add-medio
+{
+	width: 100%;
+	height: 30px;
+	display: block;
+}
+#add-medio:hover,
+#edit-medio:hover
+{
+	cursor: pointer;
+}
+#add-medio:before
+{
+	display: block;
+	background-image: url("images/add_button.png");
+	background-size: contain;
+	content:"";
+	width: 30px;
+	height: 30px;
+	float: right;
+}
+
+#edit-medio
+{
+	height: 100%;
+
+}
+#edit-medio:after
+{
+	display: block;	
+	background-image: url("images/edit_button.png");
+	background-size: contain;
+	content:"";
+	width: 20px;
+	height: 20px;
+	float: right;
+}
+
+.col-medio
+{
+	width: 33.33%;
+	display:inline-block;
+	padding: 10px;
+}
+label[for="form_id"]
+{
+	margin-right: 10px;
+}
+button[type="submit"]
+{
+	margin-top: 10px;
+	float: left;
+}

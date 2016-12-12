@@ -1,0 +1,38 @@
+#admin-asistentes-btn
+{
+	display: block;
+	
+	height: 30px;
+}
+#admin-asistentes-btn:after
+{
+	display: block;
+
+	width: 30px;
+	height: 30px;
+	content: "";
+	background-image: url("images/tabla.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	float: right;
+
+}
+.asistente
+{
+	width: 50%;
+	padding: 10px;
+	float: left;
+}
+.asistente .info-principal 
+{	
+	line-height: 1.25;
+	font-size: 15px;
+}
+.foto-asistente
+{
+	float: left;
+	margin: 5px;
+	width: 100px;
+	height: auto;
+}

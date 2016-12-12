@@ -51,4 +51,21 @@ class DefaultController extends Controller
             }
             return $patners;
         }
+    public function alojamientosAction()
+    {
+
+        $utils      =   new Utils();
+
+        $css        =   array("css/bootstrap/css/bootstrap.min.css","css/mapa.css");
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Alojamiento",$css);
+        
+        $params["map"]      =   $this->hotelesMap();
+
+        return $this->render('default/mapa.html.twig', $params);
+    }
+        private function hotelesMap()
+        {
+            return "https://www.google.com/maps/d/embed?mid=1gVTR-v_Wv_ZoYSPsxqTzCiP7nsc";
+        }
 }

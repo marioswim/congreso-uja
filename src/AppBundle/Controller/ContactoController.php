@@ -23,7 +23,7 @@ class ContactoController extends Controller
 	{
 	
     	$utils 		=	new Utils();
-    	$css 		=	array("css/contacto.ss");
+    	$css 		=	array("css/contacto.css");
     	$params 	=	$utils->prepareHeaderAndNavbar("Contacto",$css);       
 
 

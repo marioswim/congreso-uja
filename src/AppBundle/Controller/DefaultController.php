@@ -22,8 +22,9 @@ class DefaultController extends Controller
         $utils      =   new Utils();
 
         $css        =   array("css/bootstrap/css/bootstrap.min.css","css/portada.css");
+        $js         =   array("js/portada.js");
         
-        $params     =   $utils->prepareHeaderAndNavbar("Inicio",$css);
+        $params     =   $utils->prepareHeaderAndNavbar("Inicio",$css,$js);
         
         $params["patners"]  =   $this->loadPatners();
         $params["map"]      =   $this->loadIndexMap();

@@ -25,3 +25,16 @@ footer
 {
 	position: relative;
 }
+
+.scrolloff
+{
+    pointer-events: none;
+}
+
+@media(orientation: landscape){
+
+	#map
+	{
+		height: 250px!important;
+	}
+}

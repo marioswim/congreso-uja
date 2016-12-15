@@ -58,6 +58,37 @@
                                     
                             
         {% endblock %}    
+
+        {% if app.session.flashBag.has('success') %}
+
+            {% for msg in app.session.flashBag.get('success') %}
+                <div class="alert alert-success">
+                    <div class="container">{{ msg }}</div>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+        
+        {% if app.session.flashBag.has('warning') %}
+
+            {% for msg in app.session.flashBag.get('warning') %}
+                <div class="alert alert-warning">
+                    <div class="container">{{ msg }}</div>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
+        {% if app.session.flashBag.has('danger') %}
+
+            {% for msg in app.session.flashBag.get('danger') %}
+                <div class="alert alert-danger">
+                    <div class="container">{{ msg }}</div>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+
         {% block body %}{% endblock %}
         <footer>
             {% block footer1 %}{% endblock %}        

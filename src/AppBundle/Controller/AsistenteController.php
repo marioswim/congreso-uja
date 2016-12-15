@@ -44,8 +44,11 @@ class AsistenteController extends Controller
 	    {	        
 	      
 	     
-	      $this->insert($form->getData());
-	      return $this->redirect("/como-llegar");
+	      $status_code	= $this->insert($form->getData());
+
+	      $this->showStatus($status_code);
+	      if($status_code==1)
+	      	return $this->redirect("/como-llegar");
 	      
 
 	      
@@ -91,15 +94,23 @@ class AsistenteController extends Controller
 			$em->persist($asistente);
 
 
-			$em 	->	flush();
 
 			
-			$data 	-> 	setFile($dir."".$fileName);
+			try 
+			{
+				
+				$em 	->	flush();
+			} 
+			catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) 
+			{
+					
+					return 1001;
+			}
+
+			$data 	-> 	setFile($dir."".$fileName);				
 			$file 	->	move("/var/www/congreso/".$dir,$fileName);
-			$this	->	sendMail($data);
 			
-
-
+			return $this	->	sendMail($data);
 		}
 		private function sendMail($asistente)
 		{
@@ -162,13 +173,12 @@ class AsistenteController extends Controller
 		$params["publics"]= $public;
 		
 
-		$securityContext = $this->container->get('security.authorization_checker');		
 
-		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+		if ($this->get('security.context')->isGranted('ROLE_ADMIN')) 
 		{			
 		   	return $this->render('administration/asistentes.html.twig', $params);
 		}
-		elseif ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
+		else
 		{
 			return $this->render('default/asistentes.html.twig', $params);
 		}
@@ -319,6 +329,26 @@ class AsistenteController extends Controller
 
 		return $count1;
 	}
-
+	private function showStatus($code)
+	{
+		dump($code);
+		$this->get("session")->getFlashBag()->clear();
+		switch ($code) 
+		{
+			
+			case 0:
+					$this->addFlash("warning","No se ha podido enviar el correo.");
+				break;
+			case 1:
+					$this->addFlash("success","Registro realizado correctamente");
+				break;
+			case 1001:
+					$this->addFlash("danger","El DNI ya ha sido registrado.");
+				break;
+			default:
+				# code...
+				break;
+		}
+	}
 
 }

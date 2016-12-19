@@ -39,7 +39,7 @@ class ContactoController extends Controller
 	     
 	    	$code=$this->gestionarDestinatarios($form->getData());      
 
-	      
+	      	$this->showStatus($code);
 	    }
 
 	    $params["form"]	=	$form->createView();
@@ -56,7 +56,7 @@ class ContactoController extends Controller
 		if($code && $form->copia)
 			$code=$this->sendMail($form,$form->email);
 
-
+		return $code;
 	}
 	private function sendMail($form,$to)
 	{
@@ -73,7 +73,7 @@ class ContactoController extends Controller
 		
 
 		$message = \Swift_Message::newInstance()
-        ->setSubject('[WebForm][FeedBack]: '.$form->asunto)
+        ->setSubject('[Jornadas][FeedBack]: '.$form->asunto)
         ->setFrom($sender)
         ->setTo($to)
         ->setBody(        	    	
@@ -150,6 +150,23 @@ class ContactoController extends Controller
 
 			return $form;
 	}
-
+	private function showStatus($code)
+	{
+		$this->get("session")->getFlashBag()->clear();
+		switch ($code) 
+		{
+			
+			case 0:
+					$this->addFlash("warning","No se ha podido enviar el correo.");
+				break;
+			case 1:
+					$this->addFlash("success","Enviado correctamente");
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}
 
 }

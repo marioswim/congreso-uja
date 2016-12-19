@@ -34,11 +34,12 @@ class LlegarController extends Controller
 
 		$securityContext = $this->container->get('security.authorization_checker');
 
-		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) 
+
+		if ($this->get('security.context')->isGranted('ROLE_ADMIN')) 
 		{
 		   	return $this->render('administration/comollegar.html.twig', $params);
 		}
-		elseif ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) 
+		else
 		{
 			return $this->render('default/comollegar.html.twig', $params);
 		}

@@ -4,4 +4,6 @@
 	z-index:-10000;
 	width:100%;
 	top:0px;
+	height: 100%;
+	overflow: hidden;
 }

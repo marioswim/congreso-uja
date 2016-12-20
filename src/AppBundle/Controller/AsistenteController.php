@@ -43,12 +43,21 @@ class AsistenteController extends Controller
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
 	      
-	     
-	      $status_code	= $this->insert($form->getData());
+	     	$data 			= $form->getData();
+	      	$status_insert	= $this->insert($data);
 
-	      $this->showStatus($status_code);
-	      if($status_code==1)
-	      	return $this->redirect("/como-llegar");
+	      	$this->showStatus($status_insert);
+    		if($status_insert==1)
+		    {
+		    	
+		    	$status_mail = $this->sendSignUpMail($data);
+
+				$this->showStatus($status_mail);
+
+				$this->sendPaymentMail($data);
+
+		      	return $this->redirect("/como-llegar");	      	
+	      	}
 	      
 
 	      
@@ -92,9 +101,6 @@ class AsistenteController extends Controller
 			$em 	= 	$this->getDoctrine()->getManager();
 
 			$em->persist($asistente);
-
-
-
 			
 			try 
 			{
@@ -109,12 +115,40 @@ class AsistenteController extends Controller
 
 			$data 	-> 	setFile($dir."".$fileName);				
 			$file 	->	move("/var/www/congreso/".$dir,$fileName);
-			
-			return $this	->	sendMail($data);
+
+			return 1;
+
 		}
-		private function sendMail($asistente)
+
+		private function sendMail($to,$subject,$template,$params=array("key"=>array(),"value"=>array()))
 		{
 
+			
+			$message = \Swift_Message::newInstance();
+
+			if(isset($params["file"]))
+			{
+
+				$message->attach(\Swift_Attachment::fromPath($params["file"]));				
+			}
+	        
+	        $message->setSubject($subject)
+	        ->setFrom('no-reply@ujaen.es')
+	        ->setTo($to)
+	        ->setBody(        	    	
+	            $this->renderView(
+	                // app/Resources/views/Emails/registration.html.twig
+	                $template,
+	                array($params["key"] => $params["value"])
+	            ),
+	            'text/html'
+	        );
+
+		    return $this->get('mailer')->send($message);
+
+		}
+		private function prepareSignUpMail($asistente)
+		{
 			$params=array(
 				"Nombre"		=>	$asistente->getNombre(),
 				"Apellidos" 	=>	$asistente->getApellidos(),
@@ -126,7 +160,8 @@ class AsistenteController extends Controller
 				"cargo"			=>	$asistente->cargo,
 				"prov"			=>	$asistente->getProvincia(),
 				"taller"		=>	$asistente->taller,
-				"facturacion"	=> 	$asistente->factura
+				"facturacion"	=> 	$asistente->factura,
+				
 				);
 			if($asistente->factura)
 			{
@@ -140,24 +175,13 @@ class AsistenteController extends Controller
 					"pais" 		=>	$asistente->pais,
 					);
 			}
-			$message = \Swift_Message::newInstance()
-			->attach(\Swift_Attachment::fromPath($asistente->getFile()))
-	        ->setSubject('[Jornadas]: Inscripción '.$asistente->getDNI())
-	        ->setFrom('quesada@ujaen.es')
-	        ->setTo('quesada@ujaen.es')
-	        ->setBody(        	    	
-	            $this->renderView(
-	                // app/Resources/views/Emails/registration.html.twig
-	                'Emails/inscripcion.html.twig',
-	                array('asis' => $params)
-	            ),
-	            'text/html'
-	        );
-
-		    return $this->get('mailer')->send($message);
+			$aux=$params;
+			$params["value"]	=	$aux;
+			$params["key"]		=	"asis";
+			$params["file"]		=	$asistente->getFile();
+			return $params;
 
 		}
-
 	public function showPublicAction()
 	{
 		
@@ -331,7 +355,6 @@ class AsistenteController extends Controller
 	}
 	private function showStatus($code)
 	{
-		dump($code);
 		$this->get("session")->getFlashBag()->clear();
 		switch ($code) 
 		{
@@ -349,6 +372,43 @@ class AsistenteController extends Controller
 				# code...
 				break;
 		}
+	}
+	private function sendSignUpMail($asistente)
+	{
+
+      	$params		= $this	->	prepareSignUpMail($asistente);
+
+		$subject 	= "[Jornadas]: Inscripción ".$asistente->getDNI();
+
+		$status_mail = $this	->	sendMail("quesada@ujaen.es",$subject,'Emails/inscripcion.html.twig',$params);
+
+		return $status_mail;
+	}
+	private function sendPaymentMail($asistente)
+	{
+
+      	$params		= $this	->	preparePaymentMail($asistente);
+
+		$subject 	= "[Jornadas]: Inscripción ".$asistente->getDNI();
+
+		$status_mail = $this	->	sendMail($asistente->getEmail(),$subject,'Emails/pago.html.twig',$params);
+
+		return $status_mail;
+	}
+
+	private function preparePaymentMail($asistente)
+	{
+		$params=array(
+				"Nombre"		=>	$asistente->getNombre(),
+				"Apellidos" 	=>	$asistente->getApellidos(),
+				"direccion"		=> 	$asistente->getDir(),
+				"dni"			=> 	$asistente->getDNI(),
+				);
+		$aux=$params;
+		$params["value"]	=	$aux;
+		$params["key"]		=	"asis";
+
+		return $params;
 	}
 
 }

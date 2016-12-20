@@ -230,7 +230,7 @@ class AsistenteController extends Controller
 		return $this->render('administration/asistentes_tabla.html.twig', $params);
 	}
 
-		private function downloadAction()
+		public function downloadAction()
 		{
 
 			

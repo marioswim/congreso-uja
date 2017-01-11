@@ -56,7 +56,7 @@ class AsistenteController extends Controller
 
 				$this->sendPaymentMail($data);
 
-		      	return $this->redirect("/como-llegar");	      	
+		      	return $this->redirect("/");	      	
 	      	}
 	      
 

@@ -28,18 +28,7 @@ colaborador_remove:
     path: /admin/colaborador/{keyword}/delete
     defaults: { _controller: AppBundle:Colaborador:delete }
 
-llegar:
-    path: /como-llegar
-    defaults: { _controller: AppBundle:Llegar:index }
-llegar_add:
-    path: /admin/como-llegar/add
-    defaults: { _controller: AppBundle:Llegar:add }
-llegar_edit:
-    path: /admin/como-llegar/{keyword}/edit
-    defaults: { _controller: AppBundle:Llegar:edit }
-llegar_remove:
-    path: /admin/como-llegar/{keyword}/delete
-    defaults: { _controller: AppBundle:Llegar:delete }
+
 
 saludo_rector:
     path: /saludo-rector

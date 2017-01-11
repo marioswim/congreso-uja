@@ -24,17 +24,6 @@ class NavBar{
 			array(
 				"url" 	=> 	"/asistentes",
 				"title" =>	"Asistentes"),
-			/*array(
-				"url"	=>	"/prueba", 
-				"title" =>	"prueba"),*/
-			/*array(
-				"url" 	=>	"colaborador/add",
-				"title"	=>	"Añadir Partner",
-				),*/
-			array(
-				"url" 	=>	"/como-llegar",
-				"title"	=>	"Como Llegar",
-				),
 			array(
 				"url" 	=>	"/alojamiento",
 				"title"	=>	"Alojamiento",

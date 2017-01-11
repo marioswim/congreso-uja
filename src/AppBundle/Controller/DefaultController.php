@@ -69,4 +69,13 @@ class DefaultController extends Controller
         {
             return "https://www.google.com/maps/d/embed?mid=1gVTR-v_Wv_ZoYSPsxqTzCiP7nsc";
         }
+    public function saludoRectorAction()
+    {
+        $utils      =   new Utils();
+        $css        =   array();
+        $js         =   array();
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Saludo del Rector",$css,$js);
+        return $this->render("default/saludo.html.twig",$params);
+    }
 }

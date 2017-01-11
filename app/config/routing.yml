@@ -41,6 +41,10 @@ llegar_remove:
     path: /admin/como-llegar/{keyword}/delete
     defaults: { _controller: AppBundle:Llegar:delete }
 
+saludo_rector:
+    path: /saludo-rector
+    defaults: { _controller: AppBundle:Default:saludoRector }
+
 alojamiento:
     path: /alojamiento
     defaults: {_controller: AppBundle:Default:alojamientos }

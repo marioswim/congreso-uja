@@ -33,6 +33,9 @@ colaborador_remove:
 saludo_rector:
     path: /saludo-rector
     defaults: { _controller: AppBundle:Default:saludoRector }
+programa:
+    path: /programa
+    defaults: { _controller: AppBundle:Default:programa }
 
 alojamiento:
     path: /alojamiento

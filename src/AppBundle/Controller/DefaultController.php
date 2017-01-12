@@ -78,4 +78,13 @@ class DefaultController extends Controller
         $params     =   $utils->prepareHeaderAndNavbar("Saludo del Rector",$css,$js);
         return $this->render("default/saludo.html.twig",$params);
     }
+        public function programaAction()
+    {
+        $utils      =   new Utils();
+        $css        =   array("css/programa.css");
+        $js         =   array();
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Programa",$css,$js);
+        return $this->render("default/programa.html.twig",$params);
+    }
 }

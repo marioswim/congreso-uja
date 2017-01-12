@@ -36,9 +36,7 @@ class AsistenteController extends Controller
 
 		$form 		-> 	handleRequest($request);
 
-		$taller1			=	$this->countAsistentes("taller 1");
-		$taller2			=	$this->countAsistentes("taller 2");
-		$params["count"]	=	array($taller1,$taller2);
+		
 
 	    if($form->isSubmitted() && $form->isValid()) 
 	    {	        
@@ -97,7 +95,6 @@ class AsistenteController extends Controller
 			$asistente 	-> 	setCena($data 		->	cena);
 			$asistente 	-> 	setDate();
 			$asistente 	->	setImage($dir."".$fileName);
-			$asistente 	->	setTaller($data 	->	taller);
 			$em 	= 	$this->getDoctrine()->getManager();
 
 			$em->persist($asistente);
@@ -159,7 +156,6 @@ class AsistenteController extends Controller
 				"universidad" 	=> 	$asistente->universidad,
 				"cargo"			=>	$asistente->cargo,
 				"prov"			=>	$asistente->getProvincia(),
-				"taller"		=>	$asistente->taller,
 				"facturacion"	=> 	$asistente->factura,
 				
 				);
@@ -242,7 +238,7 @@ class AsistenteController extends Controller
 
 	            
 	            $file = fopen('php://output', 'r+');
-	            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Taller","Fecha Inscripción","Pagado","\n");
+	            $title_row=array("DNI","Nombre","Apellidos","Dirección","Código Postal","Provincia","Universidad","Cargo","Teléfono","Email","Perfil Público","Cena","Fecha Inscripción","Pagado","\n");
 				$title_row=implode(";",$title_row);
 				fwrite($file, $title_row);
 
@@ -263,7 +259,6 @@ class AsistenteController extends Controller
 								$asis->getEmail(),
 								($asis->getPublic() == 1)? "Si":"No",
 								($asis->getCena() 	== 1)? "Si":"No",
-								$asis->getTaller(),
 								$date_string,
 								$asis->getPagado(),
 								"\n");
@@ -303,16 +298,6 @@ class AsistenteController extends Controller
 			
 
 
-			->add("taller","choice",array(
-				"label"=>false,
-				"choices"=>array
-					(	"taller 1"	=>	"Taller 1",
-						"taller 2"	=>	"Taller 2"),
-				"attr" 		=> array("class" => "talleres"),
-				"multiple"	=>false,
-				"expanded"	=>true,
-				"required"	=>true
-				))
 			->add("factura","checkbox",array("required"=> false,"label"=>false,"attr" => array("id" => "pedir_factura")))
 			->add("razon_social","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "Razón Social","class" => "facturacion")))
 			->add("cif_nif","text",array("required"=> false,"label"=>false,"attr" => array("placeholder" => "CIF/NIF","class" => "facturacion","maxlength" => 9)))
@@ -339,20 +324,7 @@ class AsistenteController extends Controller
 	}
 
 
-	private function countAsistentes($taller)
-	{
-		$em=$this->getDoctrine()->getManager()->getRepository("AppBundle:Asistente");
 
-		$qb=$em->createQueryBuilder("a");
-		$qb->select("count(a)");
-		$qb->where("a.taller =:taller");
-		$qb->setParameter("taller",$taller);
-
-
-		$count1=$qb->getQuery()->getSingleScalarResult();
-
-		return $count1;
-	}
 	private function showStatus($code)
 	{
 		$this->get("session")->getFlashBag()->clear();

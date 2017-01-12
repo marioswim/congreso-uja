@@ -88,10 +88,7 @@ class Asistente
     * @ORM\Column(type="datetime")
     */
     private $date;
-    /**
-    * @ORM\Column(type="string",length=10)
-    */
-    private $taller;
+
     
 
     /**
@@ -439,26 +436,5 @@ class Asistente
         return $this->date;
     }
 
-    /**
-     * Set taller
-     *
-     * @param string $taller
-     * @return Asistente
-     */
-    public function setTaller($taller)
-    {
-        $this->taller = $taller;
 
-        return $this;
-    }
-
-    /**
-     * Get taller
-     *
-     * @return string 
-     */
-    public function getTaller()
-    {
-        return $this->taller;
-    }
 }

@@ -352,7 +352,7 @@ class AsistenteController extends Controller
 
 		$subject 	= "[Jornadas]: Inscripción ".$asistente->getDNI();
 
-		$status_mail = $this	->	sendMail("quesada@ujaen.es",$subject,'Emails/inscripcion.html.twig',$params);
+		$status_mail = $this	->	sendMail("emple@ujaen.es",$subject,'Emails/inscripcion.html.twig',$params);
 
 		return $status_mail;
 	}

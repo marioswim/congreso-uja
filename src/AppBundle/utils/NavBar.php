@@ -14,7 +14,7 @@ class NavBar{
 		$this->links= array(
 			array(
 				"url"	=>	"/",
-				"title" => 	"inicio"),
+				"title" => 	"Inicio"),
 			array(
 				"url" 	=> 	"/saludo-rector",
 				"title" =>	"Saludo Rector"),

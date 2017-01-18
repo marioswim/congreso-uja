@@ -40,6 +40,8 @@ class ContactoController extends Controller
 	    	$code=$this->gestionarDestinatarios($form->getData());      
 
 	      	$this->showStatus($code);
+
+	      	return $this->redirect("/");
 	    }
 
 	    $params["form"]	=	$form->createView();
@@ -50,7 +52,7 @@ class ContactoController extends Controller
 	}
 	private function gestionarDestinatarios($form)
 	{
-		$reciver="quesada@ujaen.es";
+		$reciver="emple@ujaen.es";
 		$code=$this->sendMail($form,$reciver);
 		
 		if($code && $form->copia)
@@ -60,7 +62,7 @@ class ContactoController extends Controller
 	}
 	private function sendMail($form,$to)
 	{
-		$sender		=	"quesada@ujaen.es";
+		$sender		=	"no-reply@ujaen.es";
 
 		$content=array(
 			"nombre"		=>	$form->nombre,

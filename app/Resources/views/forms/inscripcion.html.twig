@@ -4,7 +4,7 @@
 
 
 <div id="inscripcion" class="container">
-	<h1 class="page-title">{{title_page}}</h1>
+	<h1 class="page-title">{{title_page}} <span style="color:red">Proximamente</span></h1>
 
 	<div>
 		{{ form_errors(form) }}
@@ -116,7 +116,7 @@
 		{% endif%}
 
 		{%  if value.vars.block_prefixes.1=="submit" %}
-			<input class="{{value.vars.attr.class}}" id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}"/>
+			<input class="{{value.vars.attr.class}}" id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" disabled="true"/>
 		{% endif%}
 
  		{%  if value.vars.block_prefixes.1=="hidden" %}
@@ -124,6 +124,7 @@
 			<input id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}"/>
 
 		{% endif %}
+		{{ form_row(form._token) }}
 
 		{% endfor %}
 	</form>

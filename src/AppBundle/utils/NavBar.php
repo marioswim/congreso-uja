@@ -32,6 +32,9 @@ class NavBar{
 				"url" 	=>	"/alojamiento",
 				"title"	=>	"Alojamiento",
 				),
+			/*array(
+				"url" 	=> 	"/comunicados",
+				"title"	=>	"Comunicados"),*/
 			array(
 				"url" 	=>	"/contacto",
 				"title"	=>	"Contacto",

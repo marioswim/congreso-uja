@@ -29,7 +29,6 @@ colaborador_remove:
     defaults: { _controller: AppBundle:Colaborador:delete }
 
 
-
 saludo_rector:
     path: /saludo-rector
     defaults: { _controller: AppBundle:Default:saludoRector }
@@ -40,6 +39,11 @@ programa:
 alojamiento:
     path: /alojamiento
     defaults: {_controller: AppBundle:Default:alojamientos }
+
+
+comunicaciones:
+    path: /comunicados
+    defaults: { _controller: AppBundle:Comunicados:index }
 
 lpod:
     path: /politica-de-privacidad

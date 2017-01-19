@@ -1,0 +1,21 @@
+.rector
+{
+	text-align: center;
+}
+
+.container p span
+{
+	font-weight: bold;
+	color: black !important;
+}
+.container p
+{
+	font-size: 17px;
+	color:#565656;
+	font-size: sans-serif;
+}
+
+footer
+{
+	position: relative;
+}

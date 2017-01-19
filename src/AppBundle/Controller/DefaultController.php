@@ -72,7 +72,7 @@ class DefaultController extends Controller
     public function saludoRectorAction()
     {
         $utils      =   new Utils();
-        $css        =   array();
+        $css        =   array("css/saludo.css");
         $js         =   array();
         
         $params     =   $utils->prepareHeaderAndNavbar("Saludo del Rector",$css,$js);

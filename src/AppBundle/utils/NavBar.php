@@ -17,7 +17,7 @@ class NavBar{
 				"title" => 	"Inicio"),
 			array(
 				"url" 	=> 	"/saludo-rector",
-				"title" =>	"Saludo Rector"),
+				"title" =>	"Saludo del Rector"),
 			array(
 				"url" 	=> 	"/inscripcion",
 				"title" =>	"Inscripción"),

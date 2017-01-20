@@ -40,7 +40,10 @@
 	float: right;
 }
 
-footer
-{
-	position: relative;
+@media(max-height: 800px){
+	footer
+	{
+		position: relative;
+	}
+	
 }

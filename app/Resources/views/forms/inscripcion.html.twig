@@ -4,7 +4,7 @@
 
 
 <div id="inscripcion" class="container">
-	<h1 class="page-title">{{title_page}} <span style="color:red">Proximamente</span></h1>
+	<h1 class="page-title">{{title_page}} <span style="color:red; font-size:18px">(a partir del 24 de enero a las 12:00 hs)</span></h1>
 
 	<div>
 		{{ form_errors(form) }}
@@ -79,7 +79,7 @@
 
 		{% endfor %}
 	</div>
-	{% for key,value in form.children|slice(20,25) %}
+	{% for key,value in form.children|slice(19,25) %}
 		
 		
 		{%  if value.vars.block_prefixes.1=="text" %}
@@ -116,7 +116,7 @@
 		{% endif%}
 
 		{%  if value.vars.block_prefixes.1=="submit" %}
-			<input class="{{value.vars.attr.class}}" id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" disabled="true"/>
+			<input class="{{value.vars.attr.class}}" id="{{value.vars.id}}" type="{{value.vars.block_prefixes.1}}" name="{{value.vars.full_name}}" />
 		{% endif%}
 
  		{%  if value.vars.block_prefixes.1=="hidden" %}

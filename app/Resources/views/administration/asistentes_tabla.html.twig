@@ -40,6 +40,7 @@
 
 	</thead>
 	<tbody>
+		{% set cena=0 %}
 		{% for asis in content %}
 
 		<tr>
@@ -66,6 +67,7 @@
 			<th class="text-center cena">
 				{% if asis.cena==true %}
 					<span>Si</span>
+					{% set cena=cena+1 %}
 				{% else %}
 					<span>No</span>
 				{% endif %}
@@ -90,5 +92,11 @@
 	</tbody>
 
 </table>
+<div style="display:block;margin-top:15px;">
+<p style="font-weight:bolder;padding-left:15px;">Asistentes a la cena: {{cena}}</p>
+<p style="font-weight:bolder;padding-left:15px;">Asistentes: {{content|length}}</p>
+
 <a class="btn btn-primary" href="/admin/asistentes/download">Descargar</a>
+	
+</div>
 {%endblock %}

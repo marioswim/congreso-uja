@@ -42,7 +42,7 @@ alojamiento:
 
 
 comunicaciones:
-    path: /comunicados
+    path: /comunicaciones
     defaults: { _controller: AppBundle:Comunicados:index }
 
 lpod:

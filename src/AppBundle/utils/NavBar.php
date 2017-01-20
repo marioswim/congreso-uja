@@ -33,6 +33,9 @@ class NavBar{
 				"title"	=>	"Alojamiento",
 				),
 			array(
+				"url" 	=> 	"/comunicaciones",
+				"title"	=>	"Comunicaciones"),
+			array(
 				"url" 	=>	"/contacto",
 				"title"	=>	"Contacto",
 				)

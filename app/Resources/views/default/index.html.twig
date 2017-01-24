@@ -28,7 +28,12 @@
 					{% endif %}
 					<div id="{{id}}" class="col {{col}} vcenter">
 						<span></span>
-						<img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="/admin/colaborador/{{id}}/edit"><img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/></a>
+						{% else %}
+
+							<img src="{{asset(patner.uri)}}" title="{{patner.nombre}}" alt="{{patner.nombre}}"/>
+						{% endif %}
 					</div>
 
 				{% endfor %}

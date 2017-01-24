@@ -29,7 +29,7 @@ class AsistenteController extends Controller
 		$css 	=	array("css/inscripcion.css");
 		$js 	=	array("js/inscripcion.js");
 
-		$params =	$utils->prepareHeaderAndNavbar("Inscripción",$css,$js);
+		$params =	$utils->prepareHeaderAndNavbar("Preinscripción",$css,$js);
 
 		$form 	= 	$this->singUpForm();
 		$form 	=	$form->getForm();
@@ -319,7 +319,7 @@ class AsistenteController extends Controller
 
 
 */
-			if((time()>=strtotime("24-01-2017 13:00:00"))&&(time()<=strtotime("08-02-2017 00:00:00")))
+			if((time()>=strtotime("24-01-2017 12:00:00"))&&(time()<=strtotime("08-02-2017 00:00:00")))
 			{
 				$form->add('save', 'submit', array(
 				'label' => 'Guardar',

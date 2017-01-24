@@ -10,7 +10,13 @@
 <div class="container">
     
     <div id="patners">
-		
+		{% if is_granted('ROLE_ADMIN') %}
+				
+			<div id="añadir">
+				<p><a href="/admin/colaborador/add">añadir</a></p>
+			</div>		
+					
+		{% endif %}
 		{% for rol, group in patners %}
 			{% if rol == "Organizador" %}
 				{% set title="Organizadores" %}
@@ -36,9 +42,10 @@
 						{% endif %}
 					</div>
 
-				{% endfor %}
+				{% endfor %}				
 			</div>
 		{% endfor %}
+
 	</div>
 </div>
     

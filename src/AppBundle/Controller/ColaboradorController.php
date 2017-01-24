@@ -199,7 +199,9 @@ class ColaboradorController extends Controller
 		$colaborador->setRol($data->getRol());
 		$colaborador->setId($data->getId());
 		$colaborador->setDescription($data->getDescription());
-		
+		$colaborador->setFile($data->getFile());
+		$colaborador->setPath();
+		$colaborador->upload();
 		$em->flush();
 
 	}

@@ -1,4 +1,10 @@
-#mapa
+#texto
+{
+	background-color: white;
+	padding: 10px 0px 5px 0px;
+	font-size: 17px;
+}
+#mapa iframe
 {
 	position:absolute;
 	z-index:-10000;
@@ -6,8 +12,4 @@
 	top:0px;
 	height: 100%;
 	overflow: hidden;
-}
-footer
-{
-	position: relative;
 }

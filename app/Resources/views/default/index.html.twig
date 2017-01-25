@@ -28,9 +28,9 @@
 				{% for id, patner in group %}
 					
 					{% if rol == "Organizador" %}
-						{% set col="col-lg-6" %}
+						{% set col="col-lg-6 col-xs-12" %}
 					{% else %}
-						{% set col="col-lg-3" %}
+						{% set col="col-lg-3 col-xs-12 col-md-6" %}
 					{% endif %}
 					<div id="{{id}}" class="col {{col}} vcenter">
 						<span></span>

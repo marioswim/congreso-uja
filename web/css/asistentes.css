@@ -18,12 +18,7 @@
 	float: right;
 
 }
-.asistente
-{
-	width: 50%;
-	padding: 10px;
-	float: left;
-}
+
 .asistente .info-principal 
 {	
 	line-height: 1.25;
@@ -35,4 +30,9 @@
 	margin: 5px;
 	width: 100px;
 	height: auto;
+}
+
+footer
+{
+	position: relative;
 }

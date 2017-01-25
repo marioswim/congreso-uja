@@ -6,10 +6,10 @@
 {%block body %}
 <div class="container">
     {%block admin%}{%endblock%}
-
+    <div class="row"></div>
     {% for asis in publics %}
 
-    <div class="asistente">
+    <div class="col col-lg-6 col-md-6 col-sm-1 col-xs-1">
         <h4>{{asis.nombre}} {{asis.apellidos}}</h4>
         <div class="info-principal">    
             <a href="{{asset(asis.image)}}" ><img src="{{asset(asis.image)}}" class="foto-asistente"></a>
@@ -21,7 +21,7 @@
     </div>
 
     {%endfor%}
-
+</div>
 </diV>
 {% endblock %}
 

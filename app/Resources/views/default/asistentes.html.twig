@@ -6,22 +6,22 @@
 {%block body %}
 <div class="container">
     {%block admin%}{%endblock%}
-    <div class="row"></div>
-    {% for asis in publics %}
+    <div class="row">
+        {% for asis in publics %}
 
-    <div class="col col-lg-6 col-md-6 col-sm-1 col-xs-1">
-        <h4>{{asis.nombre}} {{asis.apellidos}}</h4>
-        <div class="info-principal">    
-            <a href="{{asset(asis.image)}}" ><img src="{{asset(asis.image)}}" class="foto-asistente"></a>
-            <p>{{asis.universidad}}</p>
-                <p>{{asis.cargo}}</p>   
-                <p>Teléfono: {{asis.telefono}}</p>
-                <p>Email: {{asis.email}}</p>
+        <div class="col col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <h4>{{asis.nombre}} {{asis.apellidos}}</h4>
+            <div class="info-principal">    
+                <a href="{{asset(asis.image)}}" ><img src="{{asset(asis.image)}}" class="foto-asistente"></a>
+                <p>{{asis.universidad}}</p>
+                    <p>{{asis.cargo}}</p>   
+                    <p>Teléfono: {{asis.telefono}}</p>
+                    <p>Email: {{asis.email}}</p>
+            </div>
         </div>
-    </div>
 
-    {%endfor%}
-</div>
+        {%endfor%}
+    </div>
 </diV>
 {% endblock %}
 

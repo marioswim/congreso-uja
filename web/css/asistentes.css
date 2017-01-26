@@ -18,11 +18,15 @@
 	float: right;
 
 }
-
-.asistente .info-principal 
+.info-principal
+{
+	padding: 10px;
+}
+.info-principal p
 {	
-	line-height: 1.25;
-	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
 }
 .foto-asistente
 {
@@ -30,6 +34,7 @@
 	margin: 5px;
 	width: 100px;
 	height: auto;
+	max-height: 120px;
 }
 
 footer

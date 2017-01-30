@@ -17,7 +17,7 @@ class ComunicadosController extends Controller
 	public function indexAction(Request $request)
     {
         $utils      =   new Utils();
-        $css        =   array("css/comunicados.css");
+        $css        =   array("css/comunicaciones.css");
         $js         =   array();
         
         $params     =   $utils->prepareHeaderAndNavbar("Programa",$css,$js);

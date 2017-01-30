@@ -18,23 +18,35 @@
 	float: right;
 
 }
-.info-principal
+
+.col
 {
-	padding: 10px;
+	margin-bottom: 10px;
 }
-.info-principal p
-{	
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow:ellipsis;
+.asistente
+{
+	text-align: center;
+	border: 2px solid #006d38;
+	padding: 0px;
+	border-radius: 5px;
+	min-height: 243px;
 }
 .foto-asistente
 {
-	float: left;
-	margin: 5px;
-	width: 100px;
-	height: auto;
-	max-height: 120px;
+	height: 120px;
+	overflow: hidden;
+}
+.foto-asistente div
+{
+	display: block;
+    width: 120px;
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    margin-left: auto;
+    margin-right: auto;
+	
 }
 
 footer

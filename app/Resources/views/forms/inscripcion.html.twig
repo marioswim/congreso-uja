@@ -17,14 +17,15 @@
 		{%  if value.vars.block_prefixes.1=="text" %}
 		<div class="{{value.vars.attr.class}}" id="{{value.vars.attr.id|default(value.vars.id)}}">
 			<input type="{{value.vars.block_prefixes.1}}"  placeholder="{{value.vars.attr.placeholder}}"
-			 maxlength="{{value.vars.attr.maxlength|default('')}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}" required="{{value.vars.required}}"/>
+			 maxlength="{{value.vars.attr.maxlength|default('')}}"
+			 minlength="{{value.vars.attr.minlength|default('0')}}" name="{{value.vars.full_name}}" value="{{value.vars.value}}" required="{{value.vars.required}}"/>
 		 </div>
 		{% endif%}
 
 		{%  if value.vars.block_prefixes.1=="file" %}
 		<div>
 			<label>{{value.vars.label}}</label>
-			<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}"  required="{{value.vars.required}}"/>
+			<input type="{{value.vars.block_prefixes.1}}" id="{{value.vars.id}}" name="{{value.vars.full_name}}" accept=".png,.jpg" required="{{value.vars.required}}"/>
 		</div>
 		{% endif %}
 

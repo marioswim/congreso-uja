@@ -286,7 +286,7 @@ class AsistenteController extends Controller
 		$form = $this->createFormBuilder($asis)
 			->add("nombre","text",array("label"=>false,"attr"=>array("id" => "nombre","class" => "datos","placeholder"=>"Nombre","maxlength" => 100)))
 			->add("apellidos","text",array("label"=>false,"attr"=>array("id" => "apellidos","class" => "datos","placeholder"=>"Apellidos","maxlength" => 100)))
-			->add("DNI","text",array("label"=>false,"attr"=>array("id" => "dni","class" => "datos","placeholder"=>"DNI","maxlength" => 9)))
+			->add("DNI","text",array("label"=>false,"attr"=>array("id" => "dni","class" => "datos","placeholder"=>"DNI","maxlength" => 9,"minlength" => 9)))
 			->add("universidad","text",array("label"=>false,"attr"=>array("id" => "uni","class" => "procedencia","placeholder"=>"Universidad","maxlength" => 200)))
 			->add("cargo","text",array("label"=>false,"attr"=>array("id" => "cargo","class" => "procedencia","placeholder"=>"Cargo")))
 			->add("telefono","text",array("label"=>false,"attr"=>array("id" => "telefono","class" => "contact","placeholder"=>"Teléfono","maxlength" => 9)))

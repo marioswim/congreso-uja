@@ -36,6 +36,9 @@ class NavBar{
 				"url" 	=> 	"/comunicaciones",
 				"title"	=>	"Comunicaciones"),
 			array(
+				"url" 	=> 	"/streaming",
+				"title"	=>	"Streaming"),
+			array(
 				"url" 	=>	"/contacto",
 				"title"	=>	"Contacto",
 				)

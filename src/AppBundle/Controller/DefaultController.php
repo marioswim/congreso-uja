@@ -87,4 +87,17 @@ class DefaultController extends Controller
         $params     =   $utils->prepareHeaderAndNavbar("Programa",$css,$js);
         return $this->render("default/programa.html.twig",$params);
     }
+    public function streamingAction()
+    {
+
+        $utils      =   new Utils();
+
+        $css        =   array("css/bootstrap/css/bootstrap.min.css","css/streaming.css");
+        
+        $params     =   $utils->prepareHeaderAndNavbar("Streaming",$css);
+        
+        $params["map"]      =   "https://www.youtube.com/embed/Uil8U1Ces5o";
+
+        return $this->render('default/streaming.html.twig', $params);
+    }
 }

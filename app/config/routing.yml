@@ -48,7 +48,9 @@ comunicaciones:
 lpod:
     path: /politica-de-privacidad
     defaults: { _controller: AppBundle:Ley:index }
-
+Streaming:
+    path: /streaming
+    defaults: { _controller: AppBundle:Default:streaming}
 contact:
  path: /contacto
  defaults: { _controller: AppBundle:Contacto:index }
